@@ -1,0 +1,23 @@
+RewriteEngine On
+Options +FollowSymLinks
+
+# Base correcta para este subdirectorio
+RewriteBase /dnd/
+
+# No reescribir si es archivo o directorio real
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Páginas con subtipos ( /seccion/type/subtype/ )
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)/?$ index.php?section=$1&type=$2&subtype=$3 [QSA,L]
+
+# Diferentes tipos de contenido (must be BEFORE pages rule)
+# Esto hace que /music/casusbelli/ => section=music&type=casusbelli
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/?$             index.php?section=$1&type=$2 [QSA,L]
+
+# Páginas de secciones (con ID o slug) — más general, va después
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z0-9_-]+)/?$        index.php?section=$1&page=$2 [QSA,L]
+
+# Solo sección
+RewriteRule ^([a-zA-Z]+)/?$                         index.php?section=$1 [QSA,L]

@@ -1,0 +1,277 @@
+/* 
+	===========================
+	Menu de usuario superior
+	===========================
+*/
+#topUser {
+	position: absolute;
+	width: 226px;
+	padding: 2px;
+	margin-top: -142px;
+	margin-left: 846px;
+	font-size: 9px;
+	z-index: 4;
+}
+
+#topUser fieldset {
+	border: 0px;
+}
+
+#topUser legend {
+	background: #001155;
+	border: 1px solid #003366;
+	border-radius: 16px;
+	font-size: 11px;
+	margin: -5px 0px 0px 4px;
+	padding: 2px 8px 2px 7px;
+}	
+
+#topUser label {
+	float: left;
+	margin-top: 4px;
+	margin-bottom: 2px;
+	width: 50px;
+	padding: 1px;
+	text-align: right;
+}
+
+#topUser input {
+	width: 78px;
+	font-size: 9px;
+	background: #000065;
+	color: white;
+	border: 1px solid #000076;
+	float: right;
+	margin-top: 4px;
+	margin-bottom: 2px;
+	margin-right: 6px;
+}
+
+#topUser input.sendButton {
+	text-align: center;
+	width: 100px;
+	font-size: 9px;
+	font-weight: bold;
+	margin-top: 6px;
+	float: right;
+	border-radius: 16px;
+}
+
+#topUser input.sendButton:hover {
+	background: #000076;
+	color: #FEFEFE;
+}
+
+#topUser div.transBackground {
+	opacity: 0.4;
+}
+
+#topUser p {
+	text-align: left;
+	margin: 2px 98px 0px 0px;
+	padding: 4px;
+	font-size: 10px;
+	border: 1px solid #000076;
+	border-radius: 10px;
+	background: #000065;
+}
+
+#topUser img {
+	width: 24px;
+	vertical-align: middle;
+}
+
+
+div.userChanges select {
+	border: 1px solid #000076;
+	background: #000065;
+	color: #fff;
+	font-size:10px;
+}
+
+/* Nuevo menu de usuario > SKORN < */
+
+#topUser div.userSections {
+	float: left;
+	text-align: left;
+	width: auto;
+	min-width: 180px;
+	margin-left: -80px;
+}
+
+#topUser div.userAvatar img {
+	float: left;
+	width: 90px;
+	height: 90px;
+	border-radius: 10em;
+	border: 1px solid #003366;
+	position: absolute;
+	z-index: 2;
+}
+
+#topUser div.userIcons {
+	float: left;
+	text-align: left;
+	padding: 4px 6px 4px 16px;
+	border-radius: 0 1em 1em 0;
+	border: 1px solid #003366;
+	margin: 44px 0 0 78px;
+	background: #000065;
+	z-index: 1;
+}
+
+#topUser div.userIcons img {
+	width: 18px;
+}
+
+/* PERSONAJE ACTIVO */
+
+div.activePlayer {
+	position: absolute;
+	text-align: right;
+	font-size: 9px;
+	padding: 2px 8px 2px 20px;
+	height: 14px;
+	border: 1px solid #003366;
+	border-radius: 0 1em 1em 0;
+	background:	#000065;
+	margin: -174px 0 0 830px;
+}
+
+/* NIVEL DEL PERSONAJE */
+
+div.activePlayerLevel {
+	width: auto;
+	position: absolute;
+	font-size: 8px;
+	border: 1px solid #003366;
+	background:	#000065;
+	padding: 2px 6px;
+	border-radius: 20px;
+	margin: -188px 0 0 824px;
+	z-index: 10;
+}
+
+/* Menu superior de la web */
+
+#topBanner {
+	width: 548px; /* 364px // (438) > (454) 448 */
+	position: absolute;
+	color: white;
+	margin: 24px 0px 0px 470px; /* 570px//644px // 34 */
+	font-size: 9px;
+	z-index: 4;
+	/*background: orange;*/
+}
+
+#topBanner ul {
+	float: right;
+	overflow: auto;
+	list-style-type: none;
+	position: relative;
+}
+
+#topBanner li {
+	float: left;
+	width: 24px; /*124*/
+	height: 22px;
+	text-align: center;
+	margin-top: 5px;
+	margin-right: 6px;
+	border-radius: 1em 1em 0em 0em;
+	border: 1px solid #003366;
+	background: #001144;
+	padding: 1px 2px 2px 2px;
+}
+
+#topBanner li img {
+	margin-top: 2px;
+}
+
+#topBanner ul.textNoIcon {
+
+}
+
+#topBanner ul.textNoIcon li {
+	float: left;
+	margin-top: 14px;
+	width: 72px;
+	height: 15px;
+	padding: 1px 0 0 0;
+}
+
+/* Enlace a la clase en Poderes, Dotes, Rasgos, Etc... */
+#topBanner ul.powerClassLink li {
+	margin-top: 	13px;
+	width: 			auto;
+	height: 		14px;
+	padding: 		2px 8px 1px 8px;
+}
+
+#topBanner li:hover {
+	cursor: pointer;
+	background: #000067;
+}
+
+#topBanner ul.textNoIcon li:hover, #topBanner ul.powerClassLink li:hover {
+	background: #001144;
+	box-shadow: 0px 0px 10px #003399;
+}
+
+#topBanner li.emptyTopCell {
+	display: none;
+	border: 0px;
+}
+
+#topBanner li.active {
+	border-bottom: 1px solid #001144;
+}	
+
+/* Iconos de redes sociales */
+
+#topBanner div.returnBack {
+	position: absolute;
+	left: 551px; /* 451 // 377px */
+	top: 52px;
+	/*background: lime; */
+}
+
+#topBanner div.returnBack img {
+	width: 16px;
+	height: 16px;
+	padding: 4px 6px 4px 4px;
+	background: #001144;
+	border: 1px solid #003366;
+	border-radius: 0em 1em 1em 0em;
+	margin-bottom: 6px;
+}
+
+#topBanner div.returnBack img:hover, #topBanner div.returnBack img:active {
+	/*background: #000076;*/
+	border-left: 1px solid #001144;
+	padding-left: 2px;
+	cursor: pointer;
+}
+
+/* Pestañas de Localización */
+#topBanner div.locationTab {
+	position: absolute;
+	left: -486px; /* -656 */
+	top: 1px;
+	z-index: 3;
+	/*background: teal;*/
+}
+
+#topBanner div.locationTab li {
+	margin-top: 11px;
+	width: auto;
+	height: 16px;
+	padding: 2px 8px 0 8px;
+	float: left;
+}
+
+#topBanner div.locationTab li:hover {
+	background: #001144;
+	cursor: default;
+	box-shadow: 0px 0px 0px #000099;
+}

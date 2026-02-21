@@ -1,0 +1,259 @@
+/* ----------------------------------------------------------------- */
+/*                    Tarjeta de Poderes D&D                         */
+/* ----------------------------------------------------------------- */
+#powerCard {
+	width: 500px;
+	border: 1px solid #003366;
+	border-bottom: 0px;
+}
+
+.powercard_tooltip {
+	display:none;
+	height:163px;
+	padding:40px 30px 10px 30px;
+	width:310px;
+	font-size:11px;
+	color:#fff;
+}
+
+audio.audioPlayer {
+	display: block;
+	width: 200px;
+	border: 1px solid #003366;
+	background: #666;
+	box-shadow: 2px 2px 4px 0px #003366;
+	transition: all 0.5s linear;
+	margin: 10px 0 4px 0;
+}
+
+div.enemyAudio {
+	float: left;
+	margin: 6px;
+	font-weight: bold;
+}
+
+#powerCard img.bullet {
+	width: 11px;
+	height: 11px;
+	border: 0px;
+	border-radius: 0;
+}
+	/* Div del titulo */
+	#powerCard .cardTitle {
+		border-bottom: 1px solid #003366;
+		padding: 8px 4px 4px 4px;
+		height: 18px;
+		font-weight: bold;
+	}
+	/* Divs principales - Texto decorativo, tipo y textos varios */
+	#powerCard .cardFlavor {
+		width: auto;
+		border-bottom: 1px solid #003366;
+		padding: 5px;
+		font-style: italic;
+		background: #000066;
+	}
+	#powerCard .cardTypes {
+		width: auto;
+		padding: 5px;
+		height: 16px;
+		background: #000063;
+	}
+	#powerCard .cardText {
+		width: auto;
+		padding: 5px;
+		background: #000055;
+	}
+	/* Divs interiores - Nombres, tipo, clase, etc */
+	#powerCard .cardTitleName {
+		float: left;
+	}
+		#powerCard .cardTitleName a {
+			color: #fff;
+		}
+		#powerCard .cardTitleName a:hover {
+			cursor: pointer;
+			border: 0px;
+		}
+	#powerCard .cardTitleClass {
+		float: right;
+	}
+	#powerCard .cardTypesLeft {
+		float: left;
+		font-weight: bold;
+		width: 70px;
+	}
+	#powerCard .cardTypesRight {
+		float: right;
+		text-align: left;
+		width: 400px;
+	}
+	#powerCard .cardAction {
+		float: left;
+		font-weight: bold;
+		width: 245px;
+	}
+	#powerCard .cardReach {
+		float: right;
+		text-align: left;
+		width: 245px;
+	}
+	#powerCard.playerPower  {
+		width:460px;
+		float:left;
+	}
+	#powerCard div.playerPowerContent {
+		display: none;
+	}
+	#powerCard img.powerLink {
+		width: 20px;
+		height: 20px;
+		padding: 2px;
+		border: 0;
+		border-radius: 0;
+		float: right;
+		position: relative;
+		margin: -17px -7px 0 0;
+	}
+	div.secondaryAttack {
+		margin-left: 20px;
+		width: auto;
+		padding: 5px;
+		background: #000063;	
+	}
+	/* ---------------------------- */
+	/* Seccion de tarjeta de Objeto */
+	/* ---------------------------- */
+	#powerCard .cardTypesItem {
+		float: left;
+		font-weight: bold;
+		width: 200px;
+	}
+	#powerCard .cardTypesItem a {
+		color: white;
+		cursor: auto;
+	}
+	#powerCard .cardTypesValue {
+		float: right;
+		text-align: right;
+		width: 270px;
+	}
+	#powerCard img.goldIcon, #powerCard img.equipmentIcon {
+		width: 16px;
+		height: 16px;
+		border: 0px;
+		border-radius: 0px;
+		margin: 0 8px 0 4px;
+		vertical-align: middle;
+	}
+	#powerCard img.equipmentIcon {
+		float: left;
+		width: auto;
+		min-height: 20px;
+		padding: 4px;
+		margin: -8px 0 0 0;
+	}
+	#powerCard .cardItemBonus {
+		float: left;
+		width: 470px;
+	}
+	#powerCard .cardItemProperty {
+		width: auto;
+		padding: 5px;
+		background: #000063;
+	}
+	#powerCard .enchantFlavor {
+		width: 98%;
+		height: auto;
+		border-bottom: 1px solid #003366;
+		padding: 5px;
+		background: #000066;
+		display:table; 
+	}
+	#powerCard .enchantLevel {
+		width: 50%;
+		float: left;
+	}
+	/* ---------------------------- */
+	/* 		  Enemigos				*/
+	/* ---------------------------- */
+	#powerCard .enemyTitle {
+		background: #2D4013;
+		padding: 8px 4px 6px 4px;
+		height: 10px;
+	}
+	#powerCard .enemyStats {
+		overflow: auto;
+		width: auto;
+		min-height: 12px;
+		padding: 4px 6px 0px 6px;
+		color: #000;
+		background: #A3A392;
+	}
+	#powerCard .enemyStats#italic {
+		font-style: italic;
+		height: auto;
+		padding-bottom: 6px;
+		background: #707060;
+	}
+	#powerCard .enemyStats#familiarData {
+		padding-bottom: 10px;
+	}
+	#powerCard .enemyAttrib {
+		width: 160px;
+		float: left;
+	}
+	#powerCard .enemySkillTitle {
+		background: #2D4013;
+		padding: 4px 4px 10px 4px;
+		height: 10px;
+		font-weight: bolder;
+	}
+	#powerCard .enemyAttack {
+		background: #707060;
+		padding: 4px 4px 4px 6px;
+		color: #000;
+	}
+	#powerCard .enemyAttackInfo {
+		padding: 4px 4px 4px 12px;
+		color: #000;
+		background: #A3A392;
+	}
+	#powerCard .enemyAttackInfo ul {
+		margin-top: 2px;
+		margin-bottom: 4px;
+		margin-left: -20px;
+	}
+	#powerCard .alimentInfo {
+		padding: 2px 4px 2px 10px;
+		color: #000;
+		background: #A3A392;
+	}
+	#powerCard ul.diseaseDCS {
+		padding: 0px 0px 0px 30px;
+		margin: 0px;
+		list-style-type: none;
+	}
+	#powerCard img.attackIcon {
+		width: 22px;
+		height: 22px;
+		border: 0px;
+		border-radius: 0px;
+		margin: -4px 2px 0 0;
+		vertical-align: middle;
+		float: left;
+	}
+	#powerCard img.attackIcon#dice {
+		margin: -6px 0 -3px 0;
+		float: none;
+	}
+	#powerCard ol.traitNumList {
+		margin-top: 4px;
+		margin-bottom: 4px;
+	}
+	
+	.tip {
+    position: absolute;
+    top: 150px;
+    left: 50px;
+}

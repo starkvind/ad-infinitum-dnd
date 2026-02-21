@@ -1,0 +1,130 @@
+/* ====================================================================== */
+/* Menu de mantenimiento */
+/* ====================================================================== */
+
+#mainSection fieldset ul.managementMenu {
+	list-style-type: none;
+	width: 900px;
+	margin-top: 4px;
+	margin-left: 26px;
+	padding: 4px;
+}
+
+#mainSection fieldset ul.managementMenu li {
+	float: left;
+	text-align: center;
+	width: 132px;
+	height: 14px;
+	border: 1px solid #003366; 
+	border-radius: 10px 0; 
+	color: #44AAEE;
+	background: #000065;
+	margin: 0 4px 0 4px;
+	padding: 2px 4px 4px 4px;
+}
+
+#mainSection fieldset ul.managementMenu li:hover {
+	background: #000076;
+	border: 1px solid #004477;
+	cursor: pointer;
+}
+
+#mainSection fieldset ul.managementMenu li#notWorking {
+	color: #878798;
+	background: #373753;
+	border: 1px solid #36363D;
+	text-decoration: line-through;
+}
+
+#mainSection fieldset ul.managementMenu li#notWorking:hover {
+	cursor: default;
+}
+
+#mainSection fieldset ul.managementMenu li ul {
+	list-style-type: none;
+	display: none;
+	position: relative;
+	padding: 4px;
+}
+
+#mainSection fieldset ul.managementMenu li:hover > ul {
+	display: inline-block;
+	bottom: -3px;
+	z-index: 20;
+}
+
+#mainSection fieldset ul.managementMenu li ul li {
+	border-radius: 0;
+	padding: 0 0 4px 0;
+	margin: 0 0 4px 0;
+}
+
+#mainSection p.userPoints {
+	position: absolute;
+	text-align: left;
+	border: 1px solid #003366;
+	border-radius: 10px 0;
+	background: #001155;
+	padding: 6px;
+	margin: 0 0 0 820px;
+}
+
+#mainSection p.userPoints img, #mainSection p.userFavs img {
+	border: 0;
+	border-radius: 0;
+	float: left;
+	padding: 0;
+	margin: 0 6px 0 0;
+}
+
+#mainSection p.userPoints a, #mainSection p.userFavs a {
+	color: #fff;
+}
+
+#mainSection p.userFavs {
+	position: absolute;
+	text-align: left;
+	border: 1px solid #003366;
+	border-radius: 10px 0;
+	background: #001155;
+	padding: 6px;
+	margin: 0 0 0 900px;
+}
+
+/* Cambios de usuario */
+#mainSection div.userChanges {
+	display: none; 
+	position: absolute;
+	float: left; 
+	text-align: left;
+	width: 234px;
+	margin-top: 90px;
+	margin-left: 44px;
+	background: #000056;
+	border: 1px solid #003366;
+	border-radius: 0 1em; 
+	padding: 6px;
+	font-size: 9px;
+	z-index: 25;
+}
+
+#mainSection div.userChanges label {
+	font-weight: bold;
+	color: #fff;
+}
+
+#mainSection div.userChanges input {
+	width: 56px;
+	font-size: 10px;
+	background: #000065;
+	color: white;
+	border: 1px solid #000076;
+}
+
+#mainSection div.userChanges input.radioUser {
+	margin: 0 -20px 0 -16px;
+}
+
+/* ====================================================================== */
+/* Fin menu de mantenimiento  */
+/* ====================================================================== */

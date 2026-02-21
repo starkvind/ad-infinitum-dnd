@@ -1,0 +1,263 @@
+/* ================================ */
+/*        Estilos principales		*/
+/* ================================ */
+
+body, table {
+	font: normal 11px verdana;
+}
+
+body {
+	color: #FFFFFF;
+	background: #05014E;
+}
+
+a {
+	color: #44AAEE;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #66CCFF;
+	cursor: pointer;
+}
+
+td {
+	padding: 4px;
+}
+
+#map_canvas { 
+	width: 50%;
+	height: 50%;
+	background: #1B2D33;
+	border: 1px solid #fff;
+}
+
+#gmnoprint {
+	width: auto;
+}
+
+/* ================================ */
+/*        CABECERAS Y MENUS 		*/
+/* ================================ */
+
+/* Contenedor  principal de la web */
+#mainBody {
+	width: 1024px;
+    margin: 0 auto;
+}
+
+/* Cabecera con imagen */
+#headerBanner {
+	padding: 2px;
+	margin-top: 20px;
+	margin-bottom: 0px;
+}
+
+#headerBanner img {
+	width: 1018px; /* 1018 */
+	border: 1px solid #003366;
+	border-radius: 0 20px;  
+}
+
+#headerLogo {
+	position: absolute;
+	margin-top: -132px;
+	margin-left: 10px;
+	z-index: 9;
+}
+
+#headerLogo img {
+	width: 126px;
+	border: 0px;
+}
+
+/* Seccion Poderes y Objetos*/
+#powerItemLayout {
+	width: 500px;
+	margin-left: 256px;
+	margin-top: 16px;
+}
+
+/* Tarjetas Poder en Jugador */
+#powerPlayerLayout {
+	width: 946px;
+	/*height: auto;
+	min-height: 310px;*/
+	margin: 12px 4px 6px 12px;
+	float: left;
+}
+
+/* Menu izquierda de la web (principal) 144px; */
+#leftMenu {
+	float: left;
+	padding: 0px;
+	/*		 ARRB DCHA ABAJ IZQU */
+	margin: -15px 95px 62px 103px; /* DOWN: 56px ///IZQ-38 // -29*/
+	z-index: 3;
+	/*background: red;*/
+}
+
+#leftMenu ul {
+	list-style-type: none;
+	margin-top: 9px;
+}
+
+#leftMenu li {
+	float: left;
+	text-align: center;
+	width: 80px;
+	height: 14px;
+	border: 1px solid #003366; 
+	border-radius: 0 0 1em 1em; 
+	color: #44AAEE;
+	background: #05014E;
+	margin-right: 6px;
+	margin-bottom: 6px;
+	padding: 2px 4px 4px 4px;
+	font-weight: bold;
+	font-size: 10px;
+}
+
+#leftMenu li a, li.mainMenuIcon a {
+	display: block;
+	white-space: nowrap;
+}
+
+#leftMenu li:hover {
+	background: #000067;
+	border: 1px solid #004477;
+	cursor: pointer;
+}
+
+#leftMenu li ul {
+	display: none;
+	position: relative;
+	border: 1px solid #003366; 
+	border-radius: 0 10px; 
+	background: #000054;
+	margin-top: 0px;
+	padding: 10px 4px 4px 10px;
+}
+
+#leftMenu li:hover > ul {
+	display: inline-block;
+	bottom: -4px;
+	left: 4px;
+	z-index: 20;
+}
+
+#leftMenu li ul li {
+	border-radius: 0px;	
+	width: 124px;
+	height: 18px;
+	padding: 0px;
+	background: #000065;
+	font-weight: normal;
+	font-size: 11px;
+}
+
+#leftMenu li ul li:hover > ul {
+	bottom: 27px;
+	left: 100px;
+	z-index: 21;
+}
+
+#leftMenu li img {
+	width: 16px;
+}
+
+#leftMenu li.mainMenuIcon {
+	width: 20px;
+}
+
+#leftMenu li.sectionOff {
+	color: #666;
+	background: #333;
+	border: 1px solid #666;
+	text-decoration: line-through;
+}
+
+/* Menú de búsqueda */
+#searchform {
+	display: none; 
+	position: absolute;
+	float: left; 
+	text-align: left;
+	width: 250px;
+	margin-left: 556px;
+	margin-top: -2px;
+	background: #000056; 
+	border: 1px solid #003366;
+	border-radius: 0 0 1em 1em; 
+	padding: 10px;
+	font-size: 9px;
+	z-index: 24;
+}
+
+#searchform label {
+	font-weight: bold;
+	color: #44AAEE;
+}
+
+#searchform input, button {
+	width: 50px;
+	font-size: 9px;
+	background: #000065;
+	color: white;
+	border: 1px solid #000076;
+}
+
+#searchform form, button {
+	float: left;
+}
+
+#searchform input:hover, button:hover {
+	cursor: pointer;
+	background: #000076;
+	border: 1px solid #000087;
+}
+
+#searchform input.searchInput {
+	width: 80px;
+}
+
+#searchform input.searchInput:hover {
+	cursor: text;
+}
+
+/* ====================================================================== */
+/* Pie de página de la web */
+#footPage {
+	float: left;
+	text-align: center;
+	padding: 2px;
+	width: 1019px;
+	margin-bottom: 20px;
+}
+
+#footPage hr {
+	border: 0.5px solid #003366;
+	height: 1px;
+}
+
+#footPage p {
+	font-size: 9px;
+	text-align: right;
+}
+
+#footPage img {
+	float: left;
+}
+	
+/* HOVER STYLES */
+#pop-up {
+	display: none;
+	position: absolute;
+	width: 280px;
+	padding: 0px 8px 2px 8px;
+	background: #000066;
+	color: #fff;
+	border: 1px solid #003366;
+	text-align: justify;
+	font-size: 10px;
+}

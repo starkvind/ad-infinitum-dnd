@@ -1,0 +1,209 @@
+/* ----------------------------------------------------------- */
+/*                  Pantalla de Combate                        */
+/* ----------------------------------------------------------- */
+
+div.mainCombat {
+	padding: 10px;
+	width: 100%;
+}
+
+div.mainCombat fieldset {
+	padding: 0px;
+	border: 0;
+	margin: 0 0 2px 0;
+}
+
+div.mainCombat div#battleTitle {
+	background: #000065;
+	border: 1px solid #003366;
+	padding: 10px;
+	text-align: center;
+	font-size: 18px;
+	border-radius: 0 16px;
+	margin: 0px;
+}
+
+div.mainCombat div {
+	margin-top: 15px;
+}
+
+div.mainCombat div#battleBackground {
+  /* Set up proportionate scaling */
+  width: 89%;
+  min-height: 80%;
+  /* Set up positioning */
+  position: absolute;
+  border: 1px solid #039;
+}
+
+div.mainCombat div#battleUnitCardMat {
+	width: 70%;
+	float: left;
+}
+
+div.mainCombat div#initiativeBlock {
+	font-size: 16px;
+	padding: 14px;	
+	width: 25%;
+	float: right;
+	margin-right: 14px;
+}
+
+div.mainCombat div#initiativeBlock table {
+	width: 100%;
+	text-align: left;
+	background: #006;
+	padding: 16px;
+	border: 1px solid #039;
+}
+
+div.mainCombat div#initiativeBlock table tr, div.mainCombat div#initiativeBlock table td {
+	width: 50%;
+	text-align: left;
+}
+
+div.mainCombat div#initiativeBlock h5 {
+	margin: 0 0 10px 0;
+	padding: 0;
+	text-align: center;
+}
+
+div.mainCombat div#unitBlock {
+	padding: 6px;	
+	width: 122px;
+	float: left;
+	margin: 10px;
+	border-radius: 10px;
+}
+
+div.mainCombat div#unitBlock.party, div.mainCombat div#initiativeBlock table td#party {
+	border: 1px solid #003399;
+	background: #000066;
+}
+
+div.mainCombat div#unitBlock.enemy, div.mainCombat div#initiativeBlock table td#enemy {
+	border: 1px solid #990033;
+	background: #660000;
+}
+
+div.mainCombat div#unitBlock.neutral, div.mainCombat div#initiativeBlock table td#neutral {
+	border: 1px solid #666;
+	background: #333;
+}
+
+div.mainCombat div#initiativeBlock table td#party.active {
+	border: 1px solid #0CF;
+	background: #0FF;
+	color: #000;
+}
+
+div.mainCombat div#initiativeBlock table td#enemy.active {
+	border: 1px solid #C90;
+	background: #C60;
+	color: #FFF;
+}
+
+div.mainCombat div#initiativeBlock table td#neutral.active {
+	border: 1px solid #CCC;
+	background: #999;
+	color: #000;
+}
+
+div.mainCombat div#initiativeBlock table td#party.dead, div.mainCombat div#initiativeBlock table td#enemy.dead, div.mainCombat div#initiativeBlock table td#neutral.dead {
+	border: 1px solid #FFF;
+	background: #000;
+	color: #F00;
+}
+
+div.mainCombat div#unitBlock div#unitName {
+	text-align: center;
+	padding: 2px 2px 3px 2px;
+	margin: 0px 0px -1px 0px;
+	border-radius: 10px 10px 0px 0;
+}
+
+div.mainCombat div#unitBlock div#unitName.party {
+	border: 1px solid #000;
+	background-color: #336699;
+}
+
+div.mainCombat div#unitBlock div#unitName.enemy {
+	border: 1px solid #000;
+	background-color: #993333;
+}
+div.mainCombat div#unitBlock div#unitName.neutral {
+	border: 1px solid #000;
+	background-color: #666;
+}
+
+div.mainCombat div#unitBlock div#unitHealth {
+	margin: 0px;
+	padding: 0px;
+}
+
+div.mainCombat div#unitBlock div#unitNumericHealth {
+	float: right;
+	color: black;
+	width: 60px;
+	text-align: right;
+	position: absolute;
+	float: right;
+	margin: 122px 0px 0px 58px;
+}
+
+div.mainCombat div#unitBlock div#unitNumericHealth.noAvatar {
+	margin: 0px 0px 0px 58px;
+}
+
+div.mainCombat div#unitBlock  div#unitHealth div#healthBar {
+	border-radius: 0px; 
+	/*-webkit-box-shadow: inset 0 2px 5px #AAA; */
+	border: 1px solid #111; 
+	background: #FFF; 
+	width: 120px; 
+	height: 15px;
+	padding: 0px;
+	margin-left: 0px;
+	margin-top: -1px;
+	float: right;
+}
+
+div.mainCombat div#unitBlock img {
+	border: 1px solid #000;
+	width: 120px;
+	float: left;
+}
+
+/* Roles de las unidades */
+
+div.mainCombat div#unitBlock div#unitRole {
+	text-align: center;
+	padding: 4px 2px 3px 2px;
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #000;
+	border-radius: 0px 0px 10px 10px;
+}
+
+div.mainCombat div#unitBlock div#unitRole.blueRole {
+	background-color: #0066cc;
+}
+
+div.mainCombat div#unitBlock div#unitRole.greenRole {
+	background-color: #339933;
+}
+
+div.mainCombat div#unitBlock div#unitRole.redRole {
+	background-color: #993333;
+}
+
+div.mainCombat div#unitBlock div#unitRole.purpleRole {
+	background-color: #6666cc;
+}
+
+div.mainCombat div#unitBlock div#unitRole.yellowRole {
+	background-color: #999933;
+}
+
+/* ----------------------------------------------------------- */
+/*                  Pantalla de Combate                        */
+/* ----------------------------------------------------------- */
