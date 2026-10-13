@@ -1,0 +1,28 @@
+# Plantilla: definir DOMAIN_REAL y configurar TLS ACME antes de activar.
+# No instalarla sobre el virtual host de WordPress ni Heaven's Gate.
+server {
+    listen 443 ssl http2;
+    server_name DOMAIN_REAL;
+    root /srv/ad-infinitum/current;
+    index index.html;
+    ssl_certificate /etc/letsencrypt/live/DOMAIN_REAL/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/DOMAIN_REAL/privkey.pem;
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Content-Security-Policy "default-src 'none'; img-src 'self' data:; style-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; connect-src 'none'; object-src 'none'; upgrade-insecure-requests" always;
+
+    autoindex off;
+    error_page 404 /404.html;
+    location = /404.html { internal; }
+    location / { try_files $uri $uri/ =404; }
+    location ~ /\\. { return 404; }
+    location ~* \\.(?:php|sql|db|bak|ini|log|env|zip|tar|gz|md|conf)$ { return 404; }
+}
+server {
+    listen 80;
+    server_name DOMAIN_REAL;
+    return 301 https://$host$request_uri;
+}

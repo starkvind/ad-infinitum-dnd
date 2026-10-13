@@ -1,0 +1,30 @@
+name: Ad Infinitum Legacy - checks
+on:
+  pull_request:
+    paths:
+      - 'legacy-static/**'
+      - '.github/workflows/ad-infinitum-legacy-checks.yml'
+      - '.github/workflows/ad-infinitum-legacy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build allowlisted static site
+        run: python3 legacy-static/build.py
+      - name: Run security and navigation tests
+        run: python3 -m unittest discover -s legacy-static/tests -v
+      - name: Upload static-only preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: ad-infinitum-legacy-static-preview
+          path: legacy-static/dist/
+          if-no-files-found: error
