@@ -27,6 +27,8 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: none
           coverage: none
+      - name: Probar Miniaturas en PHP real sin base de datos
+        run: php tools/test_miniatures_runtime.php
       - name: Comprobar sintaxis de PHP sin ejecutar la aplicación
         shell: bash
         run: |
