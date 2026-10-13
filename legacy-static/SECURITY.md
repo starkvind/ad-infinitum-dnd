@@ -8,7 +8,7 @@ El volcado privado recuperado el 13/10/2026 contiene 47 tablas, incluyendo `main
 
 ## Criterio prudente sobre visibilidad de aventuras
 
-La tabla `dnd_adventures` conserva 62 registros: 61 con `visible=0` y uno con `visible=5`. El significado exacto de ese campo **no ha quedado acreditado**; `0` no debe interpretarse automáticamente como oculto ni como público. Por privacidad y derechos se han excluido todas las aventuras de esta primera edición.
+La tabla `dnd_adventures` conserva 62 registros: 61 con `visible=0` y uno con `visible=5`. El propio SQL documenta el campo como «Nivel mínimo para ver la aventura» y `content/stone.php` confirma que el filtro es `AND visible <= $mainUserLevel`, con nivel `0` por defecto para visitantes sin sesión. **Por tanto, las 61 aventuras de nivel 0 eran visibles para visitantes anónimos en el sistema antiguo**; la restante exige nivel 5. Esto no equivale a consentimiento vigente de publicación: por privacidad y derechos se han excluido todas las aventuras de esta primera edición.
 
 ## Barreras implementadas en esta restauración
 
