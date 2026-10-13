@@ -79,7 +79,9 @@ $bytes = "<?php\n// Configuración privada: no subir a GitHub ni mover al direct
     . var_export(['persona' => $persona, 'hash' => $hash], true) . ";\n";
 // Escribir en fichero temporal con creación exclusiva y sustitución atómica.
 $tmp = $path . '.new-' . bin2hex(random_bytes(8));
+$previousUmask = umask(0077);
 $fd = @fopen($tmp, 'x');
+umask($previousUmask);
 if (!is_resource($fd)) {
     fwrite(STDERR, "No se puede preparar la configuración privada.\n");
     exit(1);
