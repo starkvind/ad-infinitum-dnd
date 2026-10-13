@@ -1,10 +1,19 @@
 <?php
-	$idGetData = $page; // Cogemos datos del GET "page"
-	$orderData ="SELECT * FROM ".$dydTableMiniatures." WHERE ".$pageField." LIKE '".$idGetData."' LIMIT 1;"; // Elegimos el articulo en la Base de Datos
-	$queryData = mysql_query ($orderData, $link);
-	$rowsData = mysql_num_rows($queryData);
-	if ($rowsData != "") { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
-		$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
+	// Sin un ID numérico, presentamos el catálogo sin ejecutar una búsqueda vacía.
+	// Este campo es un entero en la base de datos; nunca se concatena entrada sin validar.
+	$idGetData = (string)($page ?? "");
+	$dataResult = false;
+	if ($idGetData !== "" && ctype_digit($idGetData) && (int)$idGetData > 0) {
+		$orderData = "SELECT * FROM ".$dydTableMiniatures." WHERE id = ".(int)$idGetData." LIMIT 1";
+		$queryData = mysql_query($orderData, $link);
+		if ($queryData && mysql_num_rows($queryData) > 0) {
+			$dataResult = mysql_fetch_array($queryData);
+		}
+	}
+	$miniEscape = static function ($value) {
+		return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+	};
+	if ($dataResult !== false) {
 		// ================================================================== //
 		// Datos básicos del Artículo
 			$miniID_2	 	 	= $dataResult["id_mini"]; 	// ID de la Miniatura en BONES.
@@ -19,26 +28,26 @@
 			// Localización para pestañas
 			$locTab = ""; include_once("contents_tabs.php");
 		// ---------------------->
-		$pageTitle3 = $miniName; echo "<h2>".$miniName."</h2>"; // Título del Artículo
-		if ($miniImage != "") { 
+		$pageTitle3 = $miniName; echo "<h2>".$miniEscape($miniName)."</h2>"; // Título del Artículo
+		if ($miniImage !== "" && preg_match('/\\A[A-Za-z0-9_-]+\\z/', (string)$miniImage)) {
 			$miniNewImage = $dydMiniatureImgPath.$miniImage.$dydMiniatureImgExt;
-			echo "<img style='width:184px;height:300px;' src='".$miniNewImage."' />"; 
+			echo "<img style='width:184px;height:300px;' alt='".$miniEscape($miniName)."' src='".$miniEscape($miniNewImage)."' />";
 		}
 		// ------------------------------------------------------------------ //
 		// Información de la Miniatura
 		// ------------------------------------------------------------------ //
 		echo "<fieldset>";
-			if ($miniID_2 != 0) { echo "<legend>ID #".$miniID_2."</legend>"; }
+			if ($miniID_2 != 0) { echo "<legend>ID #".(int)$miniID_2."</legend>"; }
 			echo "<ul>";
-			if ($miniPrice != "" AND $miniPrice != 0) { $priceCents = substr($miniPrice, -2); $priceMains = substr($miniPrice, 0, -2);
-				echo "<li><b>Precio:</b> ".$priceMains.",".$priceCents."&euro;</li>";
+			if ((int)$miniPrice > 0) {
+				echo "<li><b>Precio:</b> ".number_format(((int)$miniPrice) / 100, 2, ",", ".")."&euro;</li>";
 			}
-			if ($miniCollection != "") { echo "<li><b>Colección:</b> ".$miniCollection."</li>"; }
-			if ($miniAvatar != "") { echo "<li><b>Representa a:</b> ".$miniAvatar."</li>"; }
+			if ($miniCollection != "") { echo "<li><b>Colección:</b> ".$miniEscape($miniCollection)."</li>"; }
+			if ($miniAvatar != "") { echo "<li><b>Representa a:</b> ".$miniEscape($miniAvatar)."</li>"; }
 			echo "</ul>";
 			//echo $miniText;
 		echo "</fieldset>";
-		if ($miniText != "") { echo "<p>".nl2br($miniText)."</p>"; }
+		if ($miniText != "") { echo "<p>".nl2br($miniEscape($miniText))."</p>"; }
 		// ------------------------------------------------------------------ //
 		echo "<br/>";
 		// Fin Hoja
@@ -54,7 +63,7 @@
 			$dataListTitle = $articleType;		
 		// ---------------------->
 		echo "<h3>".$dataListTitle."</h3>";
-			$dataSearchTerms = "SELECT ".$dydBasicFields.", ".$dydMiniaturesFields." FROM ".$dydTableMiniatures." ".$dataSearchSQL."";
+			$dataSearchTerms = "SELECT ".$dydBasicFields.", ".$dydMiniaturesFields." FROM ".$dydTableMiniatures." ORDER BY name";
 			$dataSection	 = $dydSectionMiniatures[0];
 		include("contents_list.php");
 		// ------------------------------------------------------------------ //

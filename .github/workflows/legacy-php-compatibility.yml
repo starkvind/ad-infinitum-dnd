@@ -5,6 +5,8 @@ on:
       - '**/*.php'
       - '.htaccess'
       - 'tools/check_legacy_guardrails.py'
+      - 'tools/test_miniatures.py'
+      - 'media/figurine/**'
       - '.github/workflows/legacy-php-compatibility.yml'
       - 'docs/php-compatibility-audit.md'
   workflow_dispatch:
@@ -25,6 +27,8 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: none
           coverage: none
+      - name: Probar Miniaturas en PHP real sin base de datos
+        run: php tools/test_miniatures_runtime.php
       - name: Comprobar sintaxis de PHP sin ejecutar la aplicación
         shell: bash
         run: |
@@ -49,3 +53,5 @@ jobs:
       - run: python3 tools/check_legacy_guardrails.py
       - name: Inventario de dependencias y superficie heredada sin secretos
         run: python3 tools/legacy_scan.py
+      - name: Comprobar que las miniaturas y sus imágenes se conservan
+        run: python3 tools/test_miniatures.py
