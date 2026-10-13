@@ -6,6 +6,7 @@ on:
       - 'media/figurine/**'
       - 'tools/test_miniatures.py'
       - 'tools/test_miniatures_runtime.php'
+      - 'tools/check_miniatures_preflight.php'
       - '.github/workflows/miniatures-php-checks.yml'
   push:
     branches: [main]
@@ -14,6 +15,7 @@ on:
       - 'media/figurine/**'
       - 'tools/test_miniatures.py'
       - 'tools/test_miniatures_runtime.php'
+      - 'tools/check_miniatures_preflight.php'
       - '.github/workflows/miniatures-php-checks.yml'
 permissions:
   contents: read
@@ -33,7 +35,7 @@ jobs:
           tools: none
           coverage: none
       - name: Sintaxis PHP
-        run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php
+        run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php && php -l tools/check_miniatures_preflight.php
       - name: Ejecutar rutas reales con MySQL simulado
         run: php tools/test_miniatures_runtime.php
       - name: Comprobar alias de imágenes y condiciones de seguridad
