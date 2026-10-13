@@ -2,14 +2,20 @@
 	$eventAdventure = $eventAdventure ?? "";
 	$ostName = $ostName ?? "";
 	$ostYtLink = $ostYtLink ?? "";
-	$idGetData = $page; // Cogemos datos del GET "page"
-	$orderData ="SELECT * FROM ".$dydTableMap." WHERE ".$pageField." LIKE '".$idGetData."' LIMIT 1;"; // Elegimos el Lugar en la Base de Datos
-	$queryData = mysql_query ($orderData, $link);
-	$rowsData = mysql_num_rows($queryData);
+	$idGetData = $page ?? ""; // Cogemos datos del GET "page"
+	// Consultar la ficha solo si se ha pedido un ID entero positivo.
+	$requestedId = filter_var($idGetData, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+	$dataResult = false;
+	if ($requestedId !== false) {
+		$orderData = "SELECT * FROM ".$dydTableMap." WHERE id = ".$requestedId." LIMIT 1";
+		$queryData = mysql_query($orderData, $link);
+		if ($queryData && mysql_num_rows($queryData) > 0) {
+			$dataResult = mysql_fetch_array($queryData);
+		}
+	}
 	// Preparamos el array de otros reinos
 	$otherKingdoms	= array("'Zeq&#39;Riel'","'Vilennea'","'Qelasthavia'");
-	if ($rowsData != "") { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
-		$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
+	if ($dataResult !== false) {
 		// ================================================================== //
 		// Datos básicos del Lugar
 			$placeID	 	 = $dataResult["id"]; 		// ID del Lugar.
@@ -150,6 +156,9 @@
 		// ------------------------------------------------------------------ //
 	echo "<br/>";
 	} else {
+		if ($idGetData !== "") {
+			echo "<h3>Lugares</h3><p>No se ha encontrado la localización solicitada.</p>";
+		} else {
 		// ------------------------------------------------------------------ //
 		// Localización para pestañas
 		switch($typItem) {
@@ -193,6 +202,7 @@
 			$dataSection	 = $dydSectionMap[0];
 			include(__DIR__ . "/contents_list.php");
 		// ------------------------------------------------------------------ //
+		}
 	}
 ?>
 
