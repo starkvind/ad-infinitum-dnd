@@ -1,10 +1,16 @@
 <?php
-	$idGetData = $page; // Cogemos datos del GET "page"
-	$orderData ="SELECT * FROM ".$dydTableBestiary." WHERE ".$pageField." LIKE '".$idGetData."' LIMIT 1;"; // Elegimos la Familia de monstruos en la Base de Datos
-	$queryData = mysql_query ($orderData, $link);
-	$rowsData = mysql_num_rows($queryData);
-	if ($rowsData != "") { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
-		$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
+	$idGetData = $page ?? ""; // Cogemos datos del GET "page"
+	// Consultar la ficha solo si se ha pedido un ID entero positivo.
+	$requestedId = filter_var($idGetData, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+	$dataResult = false;
+	if ($requestedId !== false) {
+		$orderData = "SELECT * FROM ".$dydTableBestiary." WHERE id = ".$requestedId." LIMIT 1";
+		$queryData = mysql_query($orderData, $link);
+		if ($queryData && mysql_num_rows($queryData) > 0) {
+			$dataResult = mysql_fetch_array($queryData);
+		}
+	}
+	if ($dataResult !== false) {
 		// ================================================================== //
 		// Datos básicos de la Acción
 			$monsterID		= $dataResult["id"]; 		// ID de la familia de Monstruos.
@@ -46,6 +52,9 @@
 		// ------------------------------------------------------------------ //
 	echo "<br/>";
 		} else {
+		if ($idGetData !== "") {
+			echo "<h3>Bestiario</h3><p>No se ha encontrado la familia de monstruos solicitada.</p>";
+		} else {
 			echo $phraseNoAuth;
 		}
 	} else {
@@ -56,5 +65,6 @@
 				$dataSection	 = $dydSectionBestiary[0];
 			include("contents_list.php");
 		// ------------------------------------------------------------------ //
+		}
 	}
 ?>
