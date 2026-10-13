@@ -107,11 +107,15 @@ El primer `--apply` creó y verificó el respaldo privado, pero MariaDB rechazó
 
 La causa es falta de privilegio SQL `ALTER`; ejecutar PHP con `sudo` solo protege el archivo de respaldo y no eleva la cuenta MariaDB. El script ahora conserva `mysqli_errno()`, `mysqli_sqlstate()` y `mysqli_error()` inmediatamente después del fallo, antes de restaurar `sql_mode`.
 
-Solución mínima pendiente de autorización: conceder temporalmente `ALTER` solo sobre `DB2243630.dnd_miniatures` a `dnd_app@localhost`, repetir una vez `--apply`, comprobar 41 filas e IDs 1–41, y retirar después ese privilegio. No restaurar el backup automáticamente.
+Solución mínima aplicada con autorización: se concedió temporalmente `ALTER` solo sobre `DB2243630.dnd_miniatures` a `dnd_app@localhost`, se ejecutó una vez `--apply` y se retiró inmediatamente el privilegio. La migración conservó las 41 filas y los IDs 1–41. El respaldo creado por el intento definitivo es `/mnt/ssd/dnd-backups/miniatures-before-id-20261013-224240-80eb58ab.sql`, con la misma huella SHA-256 del respaldo anterior: `4521b4c132967b97c4e9c049ab16f198e66f87110017d768331456dc2bf7cd70`.
+
+El postcheck confirma `PRIMARY KEY AUTO_INCREMENT` y próximo ID 42. Para permitir la subida, se corrigió únicamente el permiso del directorio `media/figurine/` de `2755` a `2775`; conserva propietario `starkvind`, grupo `www-data` y bit setgid.
+
+Prueba funcional final: el formulario privado aceptó un JPEG válido y publicó la miniatura de control `Prueba MVP 2026-10-14` con ID 42. Tras el alta quedaron 42 filas y 42 IDs distintos; el JPEG guardado se validó como `image/jpeg` de 300×489 píxeles. Catálogo `/dnd/miniatures/`, ficha `/dnd/miniatures/42/` e imagen respondieron HTTP 200. El registro se conserva como evidencia histórica; no se borró ni se restauró ningún backup.
 
 ## Próxima acción exacta
 
-**Siguiente paso:** obtener autorización expresa para el privilegio temporal y el nuevo intento DDL. Después, desplegar con `git pull --ff-only origin main`, ejecutar la migración una vez, retirar `ALTER`, confirmar postcheck y probar el alta JPEG de una miniatura. El acceso privado ya fue probado por el autor.
+**Estado:** MVP de alta de Miniaturas operativo. Para futuros despliegues: `cd /mnt/ssd/html/dnd && git pull --ff-only origin main`; después ejecutar las pruebas indicadas en este documento. No volver a ejecutar `--apply`: el preflight ya informa que la tabla está preparada.
 
 ## Referencias históricas
 
