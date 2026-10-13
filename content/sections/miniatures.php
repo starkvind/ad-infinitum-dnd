@@ -1,4 +1,9 @@
 <?php
+	if (($typItem ?? '') === 'admin') {
+		define('DND_MINI_ADMIN_INCLUDED', true);
+		include __DIR__ . '/miniatures_admin.php';
+		return;
+	}
 	// Sin un ID numérico, presentamos el catálogo sin ejecutar una búsqueda vacía.
 	// Este campo es un entero en la base de datos; nunca se concatena entrada sin validar.
 	$idGetData = (string)($page ?? "");

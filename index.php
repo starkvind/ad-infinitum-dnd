@@ -1,6 +1,7 @@
 <?php 
 	error_reporting(E_ALL); // Report on all errors
-	ini_set('display_errors', '1'); // Display those errors through the web page.
+	ini_set('display_errors', '0'); // Guardar los errores en log, nunca mostrarlos al visitante.
+	ini_set('log_errors', '1');
 	// -------------------------------------------------------------------------------------- //
 	//header('Content-Type: text/html; charset=ISO-8859-15'); 
 	header('Content-Type: text/html; charset=UTF-8');

@@ -1,6 +1,12 @@
 RewriteEngine On
 Options +FollowSymLinks
 
+# No reactivar los endpoints directos de gestiÃ³n de usuarios de 2015.
+# Los includes PHP locales siguen funcionando; solo se deniega HTTP directo.
+RewriteRule ^content/user/.*\.php$ - [F,NC,L]
+RewriteRule ^content/(?:sections/miniatures_admin|miniatures_admin_lib)\.php$ - [F,NC,L]
+RewriteRule ^tools/.*\.php$ - [F,NC,L]
+
 # Base correcta para este subdirectorio
 RewriteBase /dnd/
 
@@ -9,15 +15,14 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Páginas con subtipos ( /seccion/type/subtype/ )
+# PÃ¡ginas con subtipos ( /seccion/type/subtype/ )
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)/?$ index.php?section=$1&type=$2&subtype=$3 [QSA,L]
 
-# Diferentes tipos de contenido (must be BEFORE pages rule)
-# Esto hace que /music/casusbelli/ => section=music&type=casusbelli
+# Diferentes tipos de contenido
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/?$             index.php?section=$1&type=$2 [QSA,L]
 
-# Páginas de secciones (con ID o slug) — más general, va después
+# PÃ¡ginas con ID o slug
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z0-9_-]+)/?$        index.php?section=$1&page=$2 [QSA,L]
 
-# Solo sección
+# Solo secciÃ³n
 RewriteRule ^([a-zA-Z]+)/?$                         index.php?section=$1 [QSA,L]
