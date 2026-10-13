@@ -20,7 +20,7 @@ El autor ejecutó `php tools/check_miniatures_preflight.php` en `/mnt/ssd/html/d
 - La comprobación fue **de solo lectura**; ninguna fila fue insertada.
 - El volcado histórico del mismo día declara **ENGINE=InnoDB**, sin índice ni autoincremento, y en ese volcado los IDs de miniaturas son exactamente 1–41, sin repeticiones. **No extrapolar la unicidad a cambios posteriores sin revalidar.**
 
-**Decisión pendiente del autor:** confirmar el flujo de alta preferido. Recomendación inicial para MVP de bajo coste: importador **CLI por SSH** con imagen y metadatos, sin reabrir la autenticación web de 2015. Si se prefiere un formulario privado desde navegador, requiere trabajo de autenticación/CSRF adicional. Para cualquiera de las dos vías, proponer una migración mínima y reversible de `id` a PRIMARY KEY AUTO_INCREMENT, **solo después de copia verificada, comprobación de duplicados y autorización expresa**. No modificar esquema antes de esa decisión.
+**Flujo elegido:** formulario web privado. Falta confirmar el aislamiento de credenciales y preparar una migración mínima y reversible de `id` a PRIMARY KEY AUTO_INCREMENT, **solo después de copia verificada, comprobación de duplicados y autorización expresa**. No modificar esquema antes de esa decisión.
 
 ## Estado comprobado
 
@@ -30,6 +30,16 @@ El autor ejecutó `php tools/check_miniatures_preflight.php` en `/mnt/ssd/html/d
 - En el volcado privado **del 13-10-2026**, `dnd_miniatures` tiene 41 registros y campos: `id`, `url`, `id_mini`, `name`, `price` (entero en céntimos según visualización actual), `collection`, `picture` (nombre base de imagen), `infotext`, `avatar`, `date`. **El DDL del volcado no declara `AUTO_INCREMENT` ni PRIMARY KEY**: hay que contrastar el esquema de la Raspberry antes de cualquier `INSERT`.
 - `content/user/management.php` contiene menús para altas de aventuras, rasgos, dotes, lugares y tarjetas, **pero no se ha encontrado una opción equivalente de alta de Miniaturas**. `content/user/add_db.php` tampoco contiene una operación específica de Miniaturas.
 - El volcado SQL es una fuente privada para diagnóstico, **no se debe subir al GitHub público**. Los datos y contraseñas históricos requieren protección.
+
+## Decisión del autor: interfaz privada web (13-10-2026)
+
+El autor elige **formulario privado accesible desde el portal**, no importación por SSH. Flujo: capturar o seleccionar fotografía, completar los metadatos históricos de la miniatura y guardarla para que aparezca al instante en catálogo y ficha. Mantener el estilo gráfico de 2015 y los enlaces `/dnd/`.
+
+### Hallazgo bloqueante antes de reabrir el login
+
+El formulario visual original está en `content/main/main_usermenu.php`, actualmente comentado en `index.php`. Envía sus credenciales a `content/user/check_person.php`, que compara usuario y contraseña directamente dentro de SQL concatenado con `main_users` (`name`, `password`), crea sesiones heredadas y desencadena escrituras y notificación por correo. **No habilitar ese endpoint ni su menú sin rehabilitar la autenticación, separación de permisos, CSRF y sesiones**. Que el formulario esté oculto no desactiva necesariamente su endpoint HTTP.
+
+**Decisión pendiente de confirmación:** mantener la **apariencia** del acceso original pero configurar una única credencial de administrador específica de Miniaturas, con hash fuera del repositorio y restricción LAN, en vez de reusar la autenticación insegura de cuentas antiguas. No almacenar ninguna clave ni hash en GitHub público; no activar operaciones de escritura antes del acuerdo y la validación del esquema. La forma pública de Miniaturas seguirá intacta.
 
 ## Trabajo aprobado: tres pasos, nada más
 
