@@ -12,8 +12,21 @@ if (PHP_SAPI !== 'cli') {
 require_once __DIR__ . '/../content/miniatures_admin_lib.php';
 
 $path = dnd_mini_config_path();
-if (file_exists($path)) {
-    fwrite(STDERR, "La cuenta ya existe. No se sobrescribe automáticamente.\n");
+$reset = ($argc === 2 && ($argv[1] ?? '') === '--reset');
+if ($argc > 1 && !$reset) {
+    fwrite(STDERR, "Uso: sudo php tools/setup_miniatures_admin.php [--reset]\n");
+    exit(1);
+}
+if (is_link($path)) {
+    fwrite(STDERR, "La configuración no debe ser un enlace simbólico.\n");
+    exit(1);
+}
+if (file_exists($path) && !$reset) {
+    fwrite(STDERR, "La cuenta ya existe. Usa --reset para establecer otra Llave sin borrar el respaldo.\n");
+    exit(1);
+}
+if (!file_exists($path) && $reset) {
+    fwrite(STDERR, "La cuenta no existe. Ejecuta sin --reset para crearla.\n");
     exit(1);
 }
 if (function_exists('posix_geteuid') && posix_geteuid() !== 0) {
@@ -30,7 +43,7 @@ if (!is_string($ttyState) || trim($ttyState) === '') {
     exit(1);
 }
 
-echo "Nueva cuenta EXCLUSIVA de Miniaturas (sin usar main_users).\n";
+echo ($reset ? "Restablecer cuenta EXCLUSIVA de Miniaturas.\n" : "Nueva cuenta EXCLUSIVA de Miniaturas.\n");
 echo "Persona (3-40 letras, números, puntos, guiones): ";
 $persona = trim((string)fgets(STDIN));
 if (!preg_match('/\A[a-zA-Z0-9._-]{3,40}\z/', $persona)) {
@@ -64,25 +77,51 @@ if (!is_string($hash)) {
 }
 $bytes = "<?php\n// Configuración privada: no subir a GitHub ni mover al directorio html.\nreturn "
     . var_export(['persona' => $persona, 'hash' => $hash], true) . ";\n";
-$fd = @fopen($path, 'x');
+// Escribir en fichero temporal con creación exclusiva y sustitución atómica.
+$tmp = $path . '.new-' . bin2hex(random_bytes(8));
+$fd = @fopen($tmp, 'x');
 if (!is_resource($fd)) {
-    fwrite(STDERR, "No se puede crear configuración privada fuera del directorio web.\n");
+    fwrite(STDERR, "No se puede preparar la configuración privada.\n");
     exit(1);
 }
 try {
-    if (!fwrite($fd, $bytes) || !fflush($fd)) {
+    if (fwrite($fd, $bytes) !== strlen($bytes) || !fflush($fd)) {
         throw new RuntimeException('write');
     }
 } catch (Throwable $e) {
     fclose($fd);
-    @unlink($path);
-    fwrite(STDERR, "Error al escribir configuración.\n");
+    @unlink($tmp);
+    fwrite(STDERR, "No se pudo escribir el nuevo hash.\n");
     exit(1);
 }
 fclose($fd);
-if (!chmod($path, 0640) || !chgrp($path, 'www-data')) {
-    @unlink($path);
-    fwrite(STDERR, "No se pueden asignar permisos privados al fichero.\n");
+if (!chmod($tmp, 0640) || !chgrp($tmp, 'www-data')) {
+    @unlink($tmp);
+    fwrite(STDERR, "No se pudieron asignar permisos privados.\n");
     exit(1);
 }
-echo "Acceso creado en fichero privado fuera de la web. No se ha alterado main_users.\n";
+
+$backup = null;
+if ($reset) {
+    // La copia previa es legible solo por root, no se publica en /html.
+    $backup = $path . '.bak-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4));
+    if (!rename($path, $backup)) {
+        @unlink($tmp);
+        fwrite(STDERR, "No se pudo conservar la configuración anterior.\n");
+        exit(1);
+    }
+    @chmod($backup, 0600);
+}
+if (!rename($tmp, $path)) {
+    @unlink($tmp);
+    if ($backup !== null) {
+        @rename($backup, $path);
+        @chmod($path, 0640);
+        @chgrp($path, 'www-data');
+    }
+    fwrite(STDERR, "No se pudo activar la nueva configuración.\n");
+    exit(1);
+}
+echo ($reset ? "Acceso restablecido. El hash antiguo quedó respaldado fuera de la web.\n" :
+    "Acceso creado en fichero privado fuera de la web.\n");
+echo "No se ha alterado main_users ni la base de datos.\n";
