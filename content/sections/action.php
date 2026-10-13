@@ -40,12 +40,12 @@
 		// ------------------------------------------------------------------ //
 	echo "<br/>";
 		} else {
-		if ($idGetData !== "") {
-			echo "<h3>Acciones</h3><p>No se ha encontrado la acción solicitada.</p>";
-		} else {
 			echo $phraseNoAuth;
 		}
 	} else {
+		if ($idGetData !== "") {
+			echo "<h3>Acciones</h3><p>No se ha encontrado la acción solicitada.</p>";
+		} else {
 		// ------------------------------------------------------------------ //
 		echo "<h3>Lista de acciones</h3>";
 			// Mostramos la lista de acciones 
