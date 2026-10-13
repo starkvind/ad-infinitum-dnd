@@ -1,9 +1,14 @@
 <?php 
 	error_reporting(E_ALL); // Report on all errors
-	ini_set('display_errors', '1'); // Display those errors through the web page.
+	ini_set('display_errors', '0'); // Never expose internal errors to visitors.
+	ini_set('display_startup_errors', '0');
+	ini_set('log_errors', '1');
 	// -------------------------------------------------------------------------------------- //
 	//header('Content-Type: text/html; charset=ISO-8859-15'); 
 	header('Content-Type: text/html; charset=UTF-8');
+	header('X-Content-Type-Options: nosniff');
+	header('X-Frame-Options: DENY');
+	header('Referrer-Policy: no-referrer');
 	// -------------------------------------------------------------------------------------- //
 	session_start();
 	ob_start();
@@ -74,5 +79,5 @@
 	$pageContents = ob_get_contents(); // Get all the page's HTML into a string
 	ob_end_clean(); // Wipe the buffer
 	// Replace %TITLE% with $finalTitle variable contents, and print the HTML
-	echo str_replace("%TITLE%", $finalTitle, $pageContents);
+	echo str_replace("%TITLE%", htmlspecialchars((string)($finalTitle ?? "Ad Infinitum"), ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8"), $pageContents);
 ?>

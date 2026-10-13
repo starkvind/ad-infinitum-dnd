@@ -1,7 +1,7 @@
 <?php
 	$dontShowClassFeatures = $dontShowClassFeatures ?? FALSE;
 	$traitsRows = $traitsRows ?? 0;
-	$debugClassMode = isset($_GET["debug"]) && in_array(strtolower((string) $_GET["debug"]), array("1", "true", "class"), true);
+	$debugClassMode = false; // Public ?debug=class previously exposed raw SQL and record contents.
 	$debugClassRows = array();
 	$debugBuildRows = array();
 	$debugTraitRows = array();

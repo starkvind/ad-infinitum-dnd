@@ -1,5 +1,13 @@
 RewriteEngine On
-Options +FollowSymLinks
+Options +FollowSymLinks -Indexes
+
+# Do not expose source PHP modules or the unaudited combat entrypoint.
+# Keep index.php as the historic front controller; banner rotation stays intact.
+RewriteRule ^(?!index\.php$|media/banner/rotate\.php$).*\.php(?:/.*)?$ - [F,NC,L]
+
+# Block common private files independently of PHP routing.
+RewriteRule (^|/)\.(?:git|env|ht) - [F,NC,L]
+RewriteRule \.(?:sql|bak|db|log|ini)$ - [F,NC,L]
 
 # Base correcta para este subdirectorio
 RewriteBase /dnd/
@@ -9,15 +17,15 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Páginas con subtipos ( /seccion/type/subtype/ )
+# PÃ¡ginas con subtipos ( /seccion/type/subtype/ )
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)/?$ index.php?section=$1&type=$2&subtype=$3 [QSA,L]
 
 # Diferentes tipos de contenido (must be BEFORE pages rule)
 # Esto hace que /music/casusbelli/ => section=music&type=casusbelli
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/?$             index.php?section=$1&type=$2 [QSA,L]
 
-# Páginas de secciones (con ID o slug) — más general, va después
+# PÃ¡ginas de secciones (con ID o slug) â€” mÃ¡s general, va despuÃ©s
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z0-9_-]+)/?$        index.php?section=$1&page=$2 [QSA,L]
 
-# Solo sección
+# Solo secciÃ³n
 RewriteRule ^([a-zA-Z]+)/?$                         index.php?section=$1 [QSA,L]
