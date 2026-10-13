@@ -10,7 +10,7 @@ RewriteRule (^|/)\.(?:git|env|ht) - [F,NC,L]
 RewriteRule \.(?:sql|bak|db|log|ini)$ - [F,NC,L]
 
 # Base correcta para este subdirectorio
-RewriteBase /dnd/
+RewriteBase /dnd-php-test/
 
 # No reescribir si es archivo o directorio real
 RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -29,3 +29,6 @@ RewriteRule ^([a-zA-Z]+)/([a-zA-Z0-9_-]+)/?$        index.php?section=$1&page=$2
 
 # Solo sección
 RewriteRule ^([a-zA-Z]+)/?$                         index.php?section=$1 [QSA,L]
+
+# Entorno de pruebas: acceso únicamente local
+Require ip 127.0.0.1 ::1 192.168.1.0/24 10.0.0.0/8 172.16.0.0/12
