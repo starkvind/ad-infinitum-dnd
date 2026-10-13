@@ -10,6 +10,18 @@ Recuperar la web de Ad Infinitum de 2015 como cápsula del tiempo funcional, con
 
 **Fuera del MVP:** rediseño del portal, cambio de framework, normalización integral de 47 tablas, migración masiva de `mysql_*`, refactor total de las 132 piezas PHP, publicación pública de contenidos privados y nuevas funcionalidades de Heaven's Gate.
 
+## Resultado del preflight real — Raspberry (13-10-2026)
+
+El autor ejecutó `php tools/check_miniatures_preflight.php` en `/mnt/ssd/html/dnd`, rama `main`, después de retirar el worktree de pruebas. La salida confirma:
+
+- **41 filas**, `MAX(id)=41`, columnas esperadas completas.
+- `id` **sin PRIMARY KEY ni AUTO_INCREMENT** en la base que sirve producción.
+- `media/figurine/` existe y admite escritura desde el usuario SSH.
+- La comprobación fue **de solo lectura**; ninguna fila fue insertada.
+- El volcado histórico del mismo día declara **ENGINE=InnoDB**, sin índice ni autoincremento, y en ese volcado los IDs de miniaturas son exactamente 1–41, sin repeticiones. **No extrapolar la unicidad a cambios posteriores sin revalidar.**
+
+**Decisión pendiente del autor:** confirmar el flujo de alta preferido. Recomendación inicial para MVP de bajo coste: importador **CLI por SSH** con imagen y metadatos, sin reabrir la autenticación web de 2015. Si se prefiere un formulario privado desde navegador, requiere trabajo de autenticación/CSRF adicional. Para cualquiera de las dos vías, proponer una migración mínima y reversible de `id` a PRIMARY KEY AUTO_INCREMENT, **solo después de copia verificada, comprobación de duplicados y autorización expresa**. No modificar esquema antes de esa decisión.
+
 ## Estado comprobado
 
 - Producción: repositorio `starkvind/ad-infinitum-dnd`, rama `main`, desplegada con `git pull --ff-only` en `/mnt/ssd/html/dnd`.
