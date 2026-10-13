@@ -14,6 +14,8 @@ on:
       - 'tools/test_miniatures.py'
       - 'tools/test_miniatures_runtime.php'
       - 'tools/check_miniatures_preflight.php'
+      - 'tools/migrate_miniatures_id.php'
+      - 'tools/test_miniatures_migration.php'
       - '.github/workflows/miniatures-php-checks.yml'
   push:
     branches: [main]
@@ -30,6 +32,8 @@ on:
       - 'tools/test_miniatures.py'
       - 'tools/test_miniatures_runtime.php'
       - 'tools/check_miniatures_preflight.php'
+      - 'tools/migrate_miniatures_id.php'
+      - 'tools/test_miniatures_migration.php'
       - '.github/workflows/miniatures-php-checks.yml'
 permissions:
   contents: read
@@ -49,10 +53,12 @@ jobs:
           tools: none
           coverage: none
       - name: Sintaxis PHP
-        run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php && php -l tools/check_miniatures_preflight.php && php -l content/sections/miniatures_admin.php && php -l content/miniatures_admin_lib.php && php -l tools/setup_miniatures_admin.php && php -l tools/check_miniatures_access.php && php -l tools/test_miniatures_admin.php
+        run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php && php -l tools/check_miniatures_preflight.php && php -l content/sections/miniatures_admin.php && php -l content/miniatures_admin_lib.php && php -l tools/setup_miniatures_admin.php && php -l tools/check_miniatures_access.php && php -l tools/test_miniatures_admin.php && php -l tools/migrate_miniatures_id.php && php -l tools/test_miniatures_migration.php
       - name: Ejecutar rutas reales con MySQL simulado
         run: php tools/test_miniatures_runtime.php
       - name: Validar acceso privado y formularios
         run: php tools/test_miniatures_admin.php
+      - name: Comprobar contrato de migración sin tocar MariaDB
+        run: php tools/test_miniatures_migration.php
       - name: Comprobar alias de imágenes y condiciones de seguridad
         run: python3 tools/test_miniatures.py

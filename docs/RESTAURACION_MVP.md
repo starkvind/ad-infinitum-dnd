@@ -93,9 +93,13 @@ No dar por arreglado un módulo solo porque pasa `php -l`.
 - Heaven's Gate es referencia de **disciplina operativa** (pruebas y documentación), no plantilla para un refactor de Ad Infinitum.
 - Esta página reemplaza la idea de una migración grande como prioridad inmediata. Revaluar solo tras completar el MVP.
 
+## Migración de ID aprobada (14-10-2026)
+
+El autor ha autorizado convertir únicamente `dnd_miniatures.id` en clave primaria autoincremental. El script con preflight de solo lectura, backup privado y comprobación posterior está en `tools/migrate_miniatures_id.php`; instrucciones en [MIGRACION_ID_MINIATURAS.md](MIGRACION_ID_MINIATURAS.md). **Todavía no se ha ejecutado en la Raspberry.**
+
 ## Próxima acción exacta
 
-**Siguiente paso:** desplegar y configurar el nuevo acceso de Miniaturas en la Raspberry (`git pull --ff-only`, `sudo php tools/setup_miniatures_admin.php`), comprobar que el acceso funciona dentro de la LAN y después **solicitar aprobación de la migración de `dnd_miniatures.id`**, previo backup verificado y comprobación de duplicados. La pantalla de alta permanece desactivada hasta ese momento.
+**Siguiente paso:** ejecutar la migración autorizada siguiendo `docs/MIGRACION_ID_MINIATURAS.md`, confirmar postcheck y probar el alta de una miniatura. El acceso privado ya fue probado por el autor.
 
 ## Referencias históricas
 
