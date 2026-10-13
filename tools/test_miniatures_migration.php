@@ -19,5 +19,13 @@ mini_migration_ok(!str_contains($src, 'DROP TABLE'), 'No elimina tablas');
 mini_migration_ok(!str_contains($src, 'UPDATE dnd_miniatures'), 'No modifica filas individuales');
 mini_migration_ok(str_contains($src, 'ADD PRIMARY KEY (id)'), 'Añade clave primaria únicamente al ID');
 mini_migration_ok(str_contains($src, "SET SESSION sql_mode = 'NO_AUTO_VALUE_ON_ZERO'"), 'Compatibilidad con fechas históricas');
+mini_migration_ok(str_contains($src, 'mysqli_errno($link)'), 'Captura inmediata del código de error de ALTER');
+mini_migration_ok(str_contains($src, 'mysqli_sqlstate($link)'), 'Captura inmediata del SQLSTATE de ALTER');
+mini_migration_ok(str_contains($src, 'mysqli_error($link)'), 'Captura inmediata del mensaje de ALTER');
+mini_migration_ok(
+    strpos($src, '$alterErrno = mysqli_errno($link)')
+        < strpos($src, 'SET SESSION sql_mode = \'" . mysqli_real_escape_string'),
+    'Diagnóstico de ALTER precede a la siguiente sentencia SQL'
+);
 mini_migration_ok(str_contains($src, '$after['), 'Verificación de datos después de migrar');
 mini_migration_ok(str_contains($src, 'dnd-backups'), 'Respaldo fuera del repositorio público');

@@ -163,10 +163,23 @@ function mini_migrate_main(array $args): int
         }
         try {
             $ok = @mysqli_query($link, 'ALTER TABLE dnd_miniatures MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT, ADD PRIMARY KEY (id)');
+            if (!$ok) {
+                // Leer el diagnóstico antes de cualquier otra consulta: otra sentencia lo sobrescribe.
+                $alterErrno = mysqli_errno($link);
+                $alterSqlstate = mysqli_sqlstate($link);
+                $alterError = mysqli_error($link);
+            }
         } finally {
             @mysqli_query($link, "SET SESSION sql_mode = '" . mysqli_real_escape_string($link, $originalMode) . "'");
         }
-        if (!$ok) { throw new RuntimeException('MariaDB rechazó ALTER TABLE'); }
+        if (!$ok) {
+            throw new RuntimeException(sprintf(
+                'MariaDB rechazó ALTER TABLE: errno=%d; sqlstate=%s; error=%s',
+                $alterErrno,
+                $alterSqlstate,
+                $alterError
+            ));
+        }
         $after = mini_migrate_snapshot($link);
         if (!$after['ready'] || $after['hash'] !== $before['hash']
             || $after['count'] !== $before['count'] || $after['max'] !== $before['max']) {

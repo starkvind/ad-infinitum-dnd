@@ -93,13 +93,25 @@ No dar por arreglado un módulo solo porque pasa `php -l`.
 - Heaven's Gate es referencia de **disciplina operativa** (pruebas y documentación), no plantilla para un refactor de Ad Infinitum.
 - Esta página reemplaza la idea de una migración grande como prioridad inmediata. Revaluar solo tras completar el MVP.
 
-## Migración de ID aprobada (14-10-2026)
+## Migración de ID: diagnóstico tras primer intento (14-10-2026)
 
-El autor ha autorizado convertir únicamente `dnd_miniatures.id` en clave primaria autoincremental. El script con preflight de solo lectura, backup privado y comprobación posterior está en `tools/migrate_miniatures_id.php`; instrucciones en [MIGRACION_ID_MINIATURAS.md](MIGRACION_ID_MINIATURAS.md). **Todavía no se ha ejecutado en la Raspberry.**
+El primer `--apply` creó y verificó el respaldo privado, pero MariaDB rechazó el `ALTER TABLE`. El preflight posterior confirmó que la tabla seguía intacta. Diagnóstico de solo lectura:
+
+- conexión efectiva: `dnd_app@localhost`;
+- servidor: MariaDB `11.8.6-MariaDB-0+deb13u1 from Raspbian`;
+- `sql_mode` de sesión y global: `STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION`;
+- permisos efectivos: `SELECT`, `INSERT`, `UPDATE`, `DELETE` sobre `DB2243630.*`; falta `ALTER`;
+- tabla real: InnoDB, 41 filas, 41 IDs distintos, intervalo 1–41, sin valores nulos o no positivos;
+- no se encontraron claves foráneas, triggers ni vistas dependientes;
+- respaldo conservado en `/mnt/ssd/dnd-backups/miniatures-before-id-20261013-222512-98ce0cf7.sql`, modo `0600`, propietario `root:root`, SHA-256 `4521b4c132967b97c4e9c049ab16f198e66f87110017d768331456dc2bf7cd70`.
+
+La causa es falta de privilegio SQL `ALTER`; ejecutar PHP con `sudo` solo protege el archivo de respaldo y no eleva la cuenta MariaDB. El script ahora conserva `mysqli_errno()`, `mysqli_sqlstate()` y `mysqli_error()` inmediatamente después del fallo, antes de restaurar `sql_mode`.
+
+Solución mínima pendiente de autorización: conceder temporalmente `ALTER` solo sobre `DB2243630.dnd_miniatures` a `dnd_app@localhost`, repetir una vez `--apply`, comprobar 41 filas e IDs 1–41, y retirar después ese privilegio. No restaurar el backup automáticamente.
 
 ## Próxima acción exacta
 
-**Siguiente paso:** ejecutar la migración autorizada siguiendo `docs/MIGRACION_ID_MINIATURAS.md`, confirmar postcheck y probar el alta de una miniatura. El acceso privado ya fue probado por el autor.
+**Siguiente paso:** obtener autorización expresa para el privilegio temporal y el nuevo intento DDL. Después, desplegar con `git pull --ff-only origin main`, ejecutar la migración una vez, retirar `ALTER`, confirmar postcheck y probar el alta JPEG de una miniatura. El acceso privado ya fue probado por el autor.
 
 ## Referencias históricas
 
