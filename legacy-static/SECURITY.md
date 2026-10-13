@@ -4,7 +4,11 @@
 
 El proyecto legado incluye 131 archivos PHP y código de acceso a MariaDB/MySQL. `revive_log.md` describe ajustes de compatibilidad de febrero de 2026, no una auditoría de seguridad. Se identificaron riesgos en credenciales incrustadas (`content/rosetta.php`), autenticación histórica insegura, SQL concatenado, HTML procedente de BBDD, errores de depuración y rutas de escritura/administración. **La aplicación PHP no es segura para publicarla directamente**.
 
-El volcado privado recuperado el 13/10/2026 contiene 47 tablas, incluyendo `main_users`, `main_visitors`, `main_searches`, `main_topaz`, `dnd_player_characters`, sesiones de combate y movimientos/equipo de personajes. Puede incluir contraseñas, IP, correos o información personal y confidencial. No incorporar el volcado ni derivados completos a GitHub, a artefactos de compilación o a un servidor público.
+El volcado privado recuperado el 13/10/2026 contiene 47 tablas, incluyendo `main_users`, `main_visitors`, `main_searches`, `main_topaz`, `dnd_player_characters`, sesiones de combate y movimientos/equipo de personajes. Se confirmaron 15 registros de usuarios con valores de contraseña presentes y sin formato reconocible de hash moderno; además puede contener IP, correos o información personal y confidencial. No se inspeccionaron ni publicaron esos valores. No incorporar el volcado ni derivados completos a GitHub, a artefactos de compilación o a un servidor público.
+
+## Criterio prudente sobre visibilidad de aventuras
+
+La tabla `dnd_adventures` conserva 62 registros: 61 con `visible=0` y uno con `visible=5`. El significado exacto de ese campo **no ha quedado acreditado**; `0` no debe interpretarse automáticamente como oculto ni como público. Por privacidad y derechos se han excluido todas las aventuras de esta primera edición.
 
 ## Barreras implementadas en esta restauración
 
