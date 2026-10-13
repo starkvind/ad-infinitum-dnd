@@ -6,6 +6,7 @@ on:
       - 'content/sections/miniatures_admin.php'
       - 'content/miniatures_admin_lib.php'
       - 'tools/setup_miniatures_admin.php'
+      - 'tools/check_miniatures_access.php'
       - 'tools/test_miniatures_admin.php'
       - '.htaccess'
       - 'index.php'
@@ -21,6 +22,7 @@ on:
       - 'content/sections/miniatures_admin.php'
       - 'content/miniatures_admin_lib.php'
       - 'tools/setup_miniatures_admin.php'
+      - 'tools/check_miniatures_access.php'
       - 'tools/test_miniatures_admin.php'
       - '.htaccess'
       - 'index.php'
@@ -47,7 +49,7 @@ jobs:
           tools: none
           coverage: none
       - name: Sintaxis PHP
-        run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php && php -l tools/check_miniatures_preflight.php && php -l content/sections/miniatures_admin.php && php -l content/miniatures_admin_lib.php && php -l tools/setup_miniatures_admin.php && php -l tools/test_miniatures_admin.php
+        run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php && php -l tools/check_miniatures_preflight.php && php -l content/sections/miniatures_admin.php && php -l content/miniatures_admin_lib.php && php -l tools/setup_miniatures_admin.php && php -l tools/check_miniatures_access.php && php -l tools/test_miniatures_admin.php
       - name: Ejecutar rutas reales con MySQL simulado
         run: php tools/test_miniatures_runtime.php
       - name: Validar acceso privado y formularios

@@ -19,7 +19,25 @@ sudo php tools/setup_miniatures_admin.php
 
 El asistente solicita *Persona* y una *Llave* nueva (mínimo 14 caracteres), oculta su escritura y guarda solamente su hash de contraseña en `/mnt/ssd/dnd-miniatures-auth.php`, **fuera** del directorio web `/mnt/ssd/html`. El fichero se crea con permisos `0640` y grupo `www-data`. **No revelar ni subir esta información a GitHub.**
 
-El script no sobrescribe la cuenta si ya existe. Para cambiar la contraseña en el futuro, habrá que gestionar su sustitución bajo supervisión.
+Para cambiar la contraseña sin borrar el acceso actual:
+
+```bash
+cd /mnt/ssd/html/dnd
+sudo php tools/setup_miniatures_admin.php --reset
+```
+
+El restablecimiento guarda una copia privada del hash anterior, accesible solo por `root`, y activa un hash nuevo. No muestra ni publica contraseñas.
+
+Si la cuenta existe pero el formulario rechaza el acceso, diagnosticar **sin revelar claves**:
+
+```bash
+cd /mnt/ssd/html/dnd
+sudo -u www-data php tools/check_miniatures_access.php
+sudo -u www-data php tools/check_miniatures_access.php --verify
+```
+
+El segundo comando pregunta la Persona y la Llave de manera interactiva, ocultando la Llave. Si ambas pruebas son correctas y el navegador sigue rechazando el inicio de sesión, pedir el **mensaje exacto** del formulario para distinguir sesión, CSRF, restricciones LAN y navegador. Abrir la URL `/dnd/miniatures/admin/` en ventana privada; no usar la antigua sección `/user/`.
+
 
 ## Estado inicial del alta
 
