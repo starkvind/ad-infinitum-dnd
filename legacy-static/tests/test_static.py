@@ -38,7 +38,7 @@ class StaticTests(unittest.TestCase):
             for key,value in parser.attribs:
                 self.assertFalse(key.lower().startswith("on"), (page,key))
                 if key in ("href","src","action"):
-                    self.assertFalse(re.match(r"(?i)\\s*(javascript:|data:text/html)", value or ""))
+                    self.assertFalse(re.match(r"(?i)\s*(javascript:|data:text/html)", value or ""))
     def test_all_local_links_resolve(self):
         for page in self.pages:
             parser = Checker()
