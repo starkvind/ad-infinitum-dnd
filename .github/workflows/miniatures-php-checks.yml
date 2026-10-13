@@ -1,8 +1,13 @@
-name: Ad Infinitum - regresión de Miniaturas
+name: Ad Infinitum - regresión PHP 8
 on:
   pull_request:
     paths:
       - 'content/sections/miniatures.php'
+      - 'content/sections/location.php'
+      - 'content/sections/action.php'
+      - 'content/sections/book.php'
+      - 'content/sections/contents_list.php'
+      - 'tools/test_public_sections_runtime.php'
       - 'content/sections/miniatures_admin.php'
       - 'content/miniatures_admin_lib.php'
       - 'tools/setup_miniatures_admin.php'
@@ -21,6 +26,11 @@ on:
     branches: [main]
     paths:
       - 'content/sections/miniatures.php'
+      - 'content/sections/location.php'
+      - 'content/sections/action.php'
+      - 'content/sections/book.php'
+      - 'content/sections/contents_list.php'
+      - 'tools/test_public_sections_runtime.php'
       - 'content/sections/miniatures_admin.php'
       - 'content/miniatures_admin_lib.php'
       - 'tools/setup_miniatures_admin.php'
@@ -39,7 +49,7 @@ permissions:
   contents: read
 jobs:
   miniatures:
-    name: Miniaturas con PHP ${{ matrix.php }}
+    name: Secciones públicas y Miniaturas con PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -54,6 +64,8 @@ jobs:
           coverage: none
       - name: Sintaxis PHP
         run: php -l content/sections/miniatures.php && php -l tools/test_miniatures_runtime.php && php -l tools/check_miniatures_preflight.php && php -l content/sections/miniatures_admin.php && php -l content/miniatures_admin_lib.php && php -l tools/setup_miniatures_admin.php && php -l tools/check_miniatures_access.php && php -l tools/test_miniatures_admin.php && php -l tools/migrate_miniatures_id.php && php -l tools/test_miniatures_migration.php
+      - name: Probar listados y fichas de secciones públicas
+        run: php -l tools/test_public_sections_runtime.php && php -l content/sections/location.php && php -l content/sections/action.php && php -l content/sections/book.php && php tools/test_public_sections_runtime.php
       - name: Ejecutar rutas reales con MySQL simulado
         run: php tools/test_miniatures_runtime.php
       - name: Validar acceso privado y formularios
