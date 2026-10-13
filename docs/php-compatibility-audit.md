@@ -12,6 +12,22 @@
 - `index.php` tenía `display_errors=1` y `content/sections/class.php` activaba información de depuración por `?debug=class`.
 - El `.htaccess` original dejaba pasar ficheros PHP existentes directamente, sin pasar por el router.
 
+## Inventario automático adicional
+
+La auditoría estática en GitHub Actions localizó estas señales, **sin volcar líneas de código ni credenciales**:
+
+| Señal | Apariciones | Archivos afectados |
+|---|---:|---:|
+| Llamadas `mysql_*` heredadas | 346 | 70 |
+| Llamadas `mysqli_*` | 136 | 15 |
+| Palabras clave de escritura SQL | 15 | 5 |
+| Lecturas `$_POST` | 76 | 7 |
+| Lecturas `$_GET` | 11 | 4 |
+| `session_start()` | 7 | 7 |
+| Funciones PHP obsoletas seleccionadas (`eregi`, `split`, `each`, etc.) | 0 | 0 |
+
+Los recuentos son expresiones regulares (incluyen posiblemente definiciones, comentarios o texto) y no indican por sí mismos 346 fallos. Confirman una dependencia extensa de la capa `mysql_compat.php` y la necesidad de pruebas funcionales y revisión de SQL antes de publicar un backend.
+
 ## Cambios mínimos en esta rama
 
 1. Se desactiva la salida pública de errores, se establecen cabeceras básicas de protección y se escapa el título de página.
