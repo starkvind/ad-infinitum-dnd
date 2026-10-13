@@ -6,6 +6,11 @@
 	//header('Content-Type: text/html; charset=ISO-8859-15'); 
 	header('Content-Type: text/html; charset=UTF-8');
 	// -------------------------------------------------------------------------------------- //
+	// Endurecer exclusivamente la cookie de sesión, sin reactivar usuarios históricos.
+	ini_set('session.use_strict_mode', '1');
+	ini_set('session.use_only_cookies', '1');
+	ini_set('session.cookie_httponly', '1');
+	ini_set('session.cookie_samesite', 'Lax');
 	session_start();
 	ob_start();
 	// -------------------------------------------------------------------------------------- //

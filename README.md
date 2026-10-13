@@ -5,6 +5,7 @@ Portal histórico de Ad Infinitum (2015), recuperado para funcionar en PHP moder
 **Estado actual:** la sección [Miniaturas](content/sections/miniatures.php) funciona en `/dnd/miniatures/` después de la reparación de PHP 8. La siguiente prioridad es **dar de alta nuevas miniaturas, con imagen, sin editar código ni volver a desplegar**.
 
 - [Plan vigente y MVP de Miniaturas](docs/RESTAURACION_MVP.md)
+- [Acceso privado para subir miniaturas](docs/ACCESO_PRIVADO_MINIATURAS.md)
 - [Notas históricas de compatibilidad](revive_log.md)
 
 **Despliegue habitual en Raspberry Pi** (cuando un cambio esté comprobado en GitHub):

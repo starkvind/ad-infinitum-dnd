@@ -39,7 +39,7 @@ El autor elige **formulario privado accesible desde el portal**, no importación
 
 El formulario visual original está en `content/main/main_usermenu.php`, actualmente comentado en `index.php`. Envía sus credenciales a `content/user/check_person.php`, que compara usuario y contraseña directamente dentro de SQL concatenado con `main_users` (`name`, `password`), crea sesiones heredadas y desencadena escrituras y notificación por correo. **No habilitar ese endpoint ni su menú sin rehabilitar la autenticación, separación de permisos, CSRF y sesiones**. Que el formulario esté oculto no desactiva necesariamente su endpoint HTTP.
 
-**Decisión pendiente de confirmación:** mantener la **apariencia** del acceso original pero configurar una única credencial de administrador específica de Miniaturas, con hash fuera del repositorio y restricción LAN, en vez de reusar la autenticación insegura de cuentas antiguas. No almacenar ninguna clave ni hash en GitHub público; no activar operaciones de escritura antes del acuerdo y la validación del esquema. La forma pública de Miniaturas seguirá intacta.
+**Decisión confirmada:** no reutilizar ningún usuario de 2015. Se ha implementado una cuenta nueva y exclusiva de Miniaturas con su hash fuera de la web, sesión independiente y acceso exclusivo LAN, tal como describe `docs/ACCESO_PRIVADO_MINIATURAS.md`. El formulario está creado, pero la opción de alta queda bloqueada por código mientras no exista PRIMARY KEY AUTO_INCREMENT en la tabla real. No se ha ejecutado ningún ALTER ni INSERT. Las credenciales no se subirán a GitHub.
 
 ## Trabajo aprobado: tres pasos, nada más
 
@@ -47,7 +47,7 @@ El formulario visual original está en `content/main/main_usermenu.php`, actualm
 
 1. Confirmar sobre la Raspberry, **en solo lectura**, el `SHOW CREATE TABLE dnd_miniatures`, claves/índices y el máximo `id`; **no publicar credenciales ni datos privados**.
 2. Confirmar permisos de escritura y copia de seguridad del directorio `media/figurine/` y de la base de datos, antes de permitir altas.
-3. Elegir la superficie mínima segura para introducir una miniatura: **importador local por SSH primero** si se desea la vía más corta; formulario protegido para administradores si la comodidad de cargar por navegador es indispensable. No reutilizar el antiguo login/gestor de escrituras sin auditarlo.
+3. **Resuelto:** formulario privado web y una cuenta nueva específica de Miniaturas (sin usar `main_users`), documentado en `docs/ACCESO_PRIVADO_MINIATURAS.md`.
 4. No modificar registros existentes ni cambiar rutas públicas.
 
 **Hecho cuando:** esquema real confirmado y procedimiento de copia de seguridad/rollback escrito, sin operaciones destructivas.
@@ -95,7 +95,7 @@ No dar por arreglado un módulo solo porque pasa `php -l`.
 
 ## Próxima acción exacta
 
-**M1:** comprobar esquema real y método de carga seguro, y luego implementar el flujo de alta de una única miniatura. Ninguna modificación de tablas ni activación de formularios de escritura antes de esa comprobación.
+**Siguiente paso:** desplegar y configurar el nuevo acceso de Miniaturas en la Raspberry (`git pull --ff-only`, `sudo php tools/setup_miniatures_admin.php`), comprobar que el acceso funciona dentro de la LAN y después **solicitar aprobación de la migración de `dnd_miniatures.id`**, previo backup verificado y comprobación de duplicados. La pantalla de alta permanece desactivada hasta ese momento.
 
 ## Referencias históricas
 
