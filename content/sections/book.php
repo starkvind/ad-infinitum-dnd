@@ -52,12 +52,12 @@
 		// ------------------------------------------------------------------ //
 	echo "<br/>";
 		} else {
-		if ($idGetData !== "") {
-			echo "<h3>Bestiario</h3><p>No se ha encontrado la familia de monstruos solicitada.</p>";
-		} else {
 			echo $phraseNoAuth;
 		}
 	} else {
+		if ($idGetData !== "") {
+			echo "<h3>Bestiario</h3><p>No se ha encontrado la familia de monstruos solicitada.</p>";
+		} else {
 		// ------------------------------------------------------------------ //
 		echo "<h3>Bestiario</h3>";
 			// Si tenemos datos del GET, hacemos cosas de SQL; si no, no hacemos nada
