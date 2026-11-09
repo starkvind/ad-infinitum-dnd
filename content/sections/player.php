@@ -22,7 +22,7 @@
 	$queryData = mysql_query ($orderData, $link);
 	$rowsData = mysql_num_rows($queryData);
 	
-	if ($rowsData != "") {
+	if ($rowsData > 0) {
 	$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
 		$playerID		 = $dataResult["id"]; 			// ID del personaje para los favoritos.
 		$playerURL		 = $dataResult["url"]; 			// ID texto del personaje.
