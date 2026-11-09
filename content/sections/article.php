@@ -1,10 +1,14 @@
 <?php
 	$typItem = $typItem ?? "";
 	$dataSubType = $dataSubType ?? "";
-	$idGetData = $page; // Cogemos datos del GET "page"
-	$orderData ="SELECT * FROM ".$dydTableArticles." WHERE ".$pageField." LIKE '".$idGetData."' LIMIT 1;"; // Elegimos el articulo en la Base de Datos
-	$queryData = mysql_query ($orderData, $link);
-	$rowsData = mysql_num_rows($queryData);
+	$idGetData = $page ?? "";
+	$requestedId = filter_var($idGetData, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+	$queryData = false;
+	if ($requestedId !== false) {
+		$orderData = "SELECT * FROM ".$dydTableArticles." WHERE ".$pageField." = ".$requestedId." LIMIT 1;";
+		$queryData = mysql_query($orderData, $link);
+	}
+	$rowsData = $queryData ? mysql_num_rows($queryData) : 0;
 	if ($rowsData > 0) { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
 		$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
 		// ================================================================== //
