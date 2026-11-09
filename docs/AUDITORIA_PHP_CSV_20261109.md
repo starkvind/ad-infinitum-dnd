@@ -57,3 +57,14 @@ bash tools/smoke_public_php.sh http://servidor-de-ensayo/dnd/
 ```
 
 La herramienta consulta **28 URLs públicas** de catálogo e IDs históricos conocidos, exige HTTP 200 y contenido HTML, y detecta errores PHP visibles. **No inicia sesión ni escribe en MariaDB.** No se ha ejecutado contra la Raspberry ni reemplaza la revisión de los logs del servidor ni el examen manual de los contenidos.
+
+### Revisión adicional del código compartido
+
+El renderizador `content/sections/contents_list.php` tenía dos accesos directos a MySQLi: el listado principal y el cálculo de niveles de los personajes. Bajo PHP 8.1+ con MySQLi estricto, un SQL erróneo podía lanzar una excepción sin llegar a la condición de error del código antiguo. Ambos accesos se enrutan ahora a `mysql_compat.php`. Una consulta fallida muestra un mensaje neutro, sin volcar SQL ni credenciales en la respuesta. El test `php tools/test_shared_list_runtime.php` ejecuta los casos de tabla vacía y fallo SQL completamente simulado.
+
+### Preparación de la Raspberry (sin despliegue todavía)
+
+- **Guía operativa:** [Despliegue y reversión en Raspberry](DESPLIEGUE_RASPBERRY_PHP8.md).
+- **Preflight CLI offline:** `bash tools/preflight_raspberry_php8.sh`, con verificación de PHP, extensiones, Git, sintaxis y todas las regresiones. Los ficheros de imágenes no versionados no se eliminan ni bloquean automáticamente, pero requieren revisión.
+- **Smoke HTTP de solo lectura:** `bash tools/smoke_public_php.sh https://dominio/dnd/`. Solo debe utilizarse cuando exista un vhost real con MariaDB disponible.
+- Los scripts de preflight y HTTP **no se han ejecutado en la Raspberry** desde esta auditoría; se prueban mediante GitHub Actions y solo justifican **preparación para ensayo**, no un despliegue certificado.
