@@ -14,7 +14,7 @@
 			$enchantFlavor	 = $dataResult["flavortext"];	// Descripción del Encantamiento.
 			$enchantType	 = $dataResult["type"];			// Tipo del Encantamiento.
 			$enchantBdType	 = $dataResult["bd_type"];		// Tipo del Encantamiento para la BDD.
-			$enchantPage	 = $dataResult["page"];			// Página de los Manuales donde aparece el Encantamiento.
+			$enchantPage	 = $dataResult["page"] ?? "";			// Página de los Manuales donde aparece el Encantamiento.
 			$enchantBonus	 = $dataResult["bonus"];		// Bonificación del Encantamiento.
 			$enchantCritical = $dataResult["critical"];		// Critico del Encantamiento.
 			$enchantProperty = $dataResult["property"];		// Propiedad que da el Encantamiento.
