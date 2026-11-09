@@ -81,7 +81,7 @@ try {
 
     $count = 0;
     foreach ($cases as $name => $spec) {
-        foreach (['', '9999999'] as $id) {
+        foreach (['', '9999999', '0', '-7', '7 OR 1=1'] as $id) {
             [$html, $sql, $queries] = renderLegacyCatalog($name, $spec, $id);
             if (!str_contains($html, '[CATALOG]')) {
                 throw new RuntimeException($name . ': missing catalog for id ' . json_encode($id));
@@ -89,8 +89,9 @@ try {
             if (!str_contains($sql, 'FROM ' . $spec[0])) {
                 throw new RuntimeException($name . ': wrong listing table');
             }
-            if (!count($queries)) {
-                throw new RuntimeException($name . ': expected a harmless detail lookup');
+            $expectedQueries = $id === '9999999' ? 1 : 0;
+            if (count($queries) !== $expectedQueries) {
+                throw new RuntimeException($name . ': unexpected SQL lookup for ID ' . json_encode($id));
             }
             ++$count;
         }
