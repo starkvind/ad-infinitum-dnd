@@ -25,10 +25,13 @@ done
 
 if git rev-parse --show-toplevel >/dev/null 2>&1; then
   echo "HEAD: $(git rev-parse --short HEAD)"
-  if [[ -n "$(git status --porcelain)" ]]; then
-    echo "ERROR: árbol Git con cambios locales; no hacer despliegue automático." >&2
+  if ! git diff --quiet || ! git diff --cached --quiet; then
+    echo "ERROR: existen modificaciones locales en archivos versionados." >&2
     git status --short >&2
     exit 1
+  fi
+  if [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+    echo "AVISO: hay archivos no versionados (pueden ser imágenes subidas). Conservarlos y revisarlos."
   fi
 fi
 
