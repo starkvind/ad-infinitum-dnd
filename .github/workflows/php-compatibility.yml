@@ -31,6 +31,8 @@ jobs:
         run: php tools/check_db_csv_field_reads.php
       - name: Regresión de catálogo y fichas públicas con MySQL simulado
         run: php tools/test_public_sections_runtime.php
+      - name: Ejecutar diez controladores históricos sin registros en PHP 8
+        run: php tools/test_legacy_catalog_runtime.php
       - name: Regresión de los diez catálogos PHP con ID vacío e inválido
         run: php tools/test_catalog_routes_runtime.php
       - name: Regresión de miniaturas con MySQL simulado
