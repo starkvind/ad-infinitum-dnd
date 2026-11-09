@@ -27,6 +27,8 @@ jobs:
         run: find . -type f -name '*.php' -not -path './.git/*' -print0 | xargs -0 -r -n 1 php -l
       - name: Validar sintaxis del smoke HTTP (no se ejecutan peticiones en CI)
         run: bash -n tools/smoke_public_php.sh && bash -n tools/preflight_raspberry_php8.sh
+      - name: Ejecutar el preflight offline de Raspberry en el entorno CI
+        run: bash tools/preflight_raspberry_php8.sh
       - name: Contrastar columnas y tablas contra las 45 cabeceras CSV históricas
         run: php tools/check_db_csv_contract.php
       - name: Verificar los campos leídos por treinta fichas contra CSV
