@@ -1,0 +1,7 @@
+# Never commit database exports, credentials or private runtime configuration
+.env
+.env.*
+*.sql
+*.csv
+/content/local_db.php
+/private/
