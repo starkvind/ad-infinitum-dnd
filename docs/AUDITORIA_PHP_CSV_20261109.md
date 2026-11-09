@@ -46,3 +46,14 @@ La sintaxis y los mocks **no prueban** que todos los listados y fichas funcionen
 La exportación CSV no incluye tipos SQL, índices, claves foráneas, vistas, permisos ni diferencias posteriores al 8-11-2026. La autenticación nueva se abordará **en otro cambio**, sin reactivar `main_users` ni formularios heredados y sin tomar por vigentes las credenciales históricas. Este PR **no cambia el archivo de conexión** `content/rosetta.php`.
 
 No declarar la aplicación totalmente compatible ni fusionar/desplegar a ciegas basándose solo en CI. No efectuar migraciones SQL ni editar datos de producción en esta fase.
+
+### Comprobación HTTP de solo lectura en un entorno de ensayo
+
+Tras desplegar en un entorno de prueba con acceso a la base de datos, ejecutar:
+
+```bash
+cd /mnt/ssd/html/dnd
+bash tools/smoke_public_php.sh http://servidor-de-ensayo/dnd/
+```
+
+La herramienta consulta **28 URLs públicas** de catálogo e IDs históricos conocidos, exige HTTP 200 y contenido HTML, y detecta errores PHP visibles. **No inicia sesión ni escribe en MariaDB.** No se ha ejecutado contra la Raspberry ni reemplaza la revisión de los logs del servidor ni el examen manual de los contenidos.
