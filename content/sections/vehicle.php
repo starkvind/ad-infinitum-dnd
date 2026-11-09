@@ -1,5 +1,5 @@
 <?php
-	if ($page != 0) {
+	if (filter_var($page ?? null, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false) {
 	// ================================================================== //
 		echo "<div id='powerItemLayout'>";
 			$vehicleId = $page; // Damos la id del Vehiculo.

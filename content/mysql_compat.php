@@ -21,7 +21,11 @@ if (!isset($GLOBALS['__mysql_compat_link'])) {
 if (!function_exists('mysql_connect')) {
     function mysql_connect($server = null, $username = null, $password = null, $new_link = false, $client_flags = 0)
     {
-        $link = @mysqli_connect($server, $username, $password);
+        try {
+            $link = @mysqli_connect($server, $username, $password);
+        } catch (mysqli_sql_exception $exception) {
+            return false;
+        }
         if ($link instanceof mysqli) {
             $GLOBALS['__mysql_compat_link'] = $link;
         }
@@ -47,7 +51,14 @@ if (!function_exists('mysql_query')) {
         if (!($link instanceof mysqli)) {
             return false;
         }
-        return mysqli_query($link, $query);
+        try {
+            return mysqli_query($link, $query);
+        } catch (mysqli_sql_exception $exception) {
+            // mysql_query() historically returned false on SQL failure.
+            // PHP 8.1+ MySQLi is strict by default and otherwise throws.
+            error_log('Ad Infinitum: legacy SQL query failed (MySQL error ' . $exception->getCode() . ').');
+            return false;
+        }
     }
 }
 

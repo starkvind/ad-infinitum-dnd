@@ -5,7 +5,7 @@
 	$orderData ="SELECT * FROM ".$dydTableVehicles." WHERE ".$pageField." LIKE '".$idGetData."' LIMIT 1;"; // Elegimos el Vehículo en la Base de Datos
 	$queryData = mysql_query ($orderData, $link);
 	$rowsData = mysql_num_rows($queryData);
-	if ($rowsData != "") { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
+	if ($rowsData > 0) { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
 		$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
 		// ================================================================== //
 		// Datos básicos del Vehículo

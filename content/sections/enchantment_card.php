@@ -5,7 +5,7 @@
 	$orderData ="SELECT * FROM ".$dydTableEnchants." WHERE ".$pageField." LIKE '".$idGetData."' LIMIT 1;"; // Elegimos el Encantamiento en la Base de Datos
 	$queryData = mysql_query ($orderData, $link);
 	$rowsData = mysql_num_rows($queryData);
-	if ($rowsData != "") { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
+	if ($rowsData > 0) { // Comenzamos chequeo de datos. Si no tenemos nada, mandamos un mensaje de error.
 		$dataResult = mysql_fetch_array($queryData); // Empezamos a recolectar los datos. ~~ #SEC01
 		// ================================================================== //
 		// Datos básicos del Encantamiento
@@ -14,7 +14,7 @@
 			$enchantFlavor	 = $dataResult["flavortext"];	// Descripción del Encantamiento.
 			$enchantType	 = $dataResult["type"];			// Tipo del Encantamiento.
 			$enchantBdType	 = $dataResult["bd_type"];		// Tipo del Encantamiento para la BDD.
-			$enchantPage	 = $dataResult["page"];			// Página de los Manuales donde aparece el Encantamiento.
+			$enchantPage	 = $dataResult["page"] ?? "";			// Página de los Manuales donde aparece el Encantamiento.
 			$enchantBonus	 = $dataResult["bonus"];		// Bonificación del Encantamiento.
 			$enchantCritical = $dataResult["critical"];		// Critico del Encantamiento.
 			$enchantProperty = $dataResult["property"];		// Propiedad que da el Encantamiento.

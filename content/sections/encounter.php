@@ -1,5 +1,5 @@
 <?php
-if ($page != 0) {
+if (filter_var($page ?? null, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false) {
 	$encounterID = $page; // Damos la id de la Aflicción.
 	include (__DIR__ . "/encounter_card.php");
 	$pageTitle3 = $encounterName;
