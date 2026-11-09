@@ -31,6 +31,8 @@ jobs:
         run: php tools/check_db_csv_contract.php
       - name: Verificar los campos leídos por treinta fichas contra CSV
         run: php tools/check_db_csv_field_reads.php
+      - name: Listados compartidos con tabla vacía y fallo SQL
+        run: php tools/test_shared_list_runtime.php
       - name: Regresión de catálogo y fichas públicas con MySQL simulado
         run: php tools/test_public_sections_runtime.php
       - name: Ejecutar diez controladores históricos sin registros en PHP 8
