@@ -5,15 +5,17 @@
 	$shopCoin = isset($shopCoin) ? (int)$shopCoin : 0;
 	$hideAdventureColumn = isset($hideAdventureColumn) ? (bool)$hideAdventureColumn : FALSE;
 	$page = $page ?? 0;
-    $dataList = $dataSearchTerms;
+	$tableFromBiblio = $tableFromBiblio ?? FALSE;
+    $dataList = $dataSearchTerms ?? "";
 
-    // Ejecutamos la consulta
-    $dataIdQuery = mysqli_query($link, $dataList);
-    if (!$dataIdQuery) {
-        die("Error en la consulta: " . mysqli_error($link));
+    // La capa mysql_compat convierte las excepciones SQL de MySQLi en false.
+    // Nunca mostrar detalles SQL/credenciales a visitantes.
+    $dataIdQuery = mysql_query($dataList, $link);
+    $dataListError = ($dataIdQuery === false);
+    if ($dataListError) {
+        error_log('Ad Infinitum: no se pudo cargar un listado SQL.');
     }
-
-    $dataRows = mysqli_num_rows($dataIdQuery);
+    $dataRows = $dataListError ? 0 : mysql_num_rows($dataIdQuery);
 	if ($dataRows != 0) {
 		// Selección de tabla para Poderes u Dotes
 		// Esto se emplea cuando se solapan dos "pagetable", inutilizando las demás después de la primera.
@@ -358,7 +360,7 @@
 		// ------------------------------------------------ >
 		echo "<tbody>";
 			for($dt=0;$dt<$dataRows;$dt++) {
-				$dataQueryResult = mysqli_fetch_assoc($dataIdQuery);
+				$dataQueryResult = mysql_fetch_array($dataIdQuery, MYSQL_ASSOC);
 				$dataListID 		= $dataQueryResult["id"];
 				$dataListURL		= "";//[NUEVAURL] $dataQueryResult["url"];
 				$dataListName 		= $dataQueryResult["name"];
@@ -595,10 +597,10 @@
 							$playerURL   = $dataQueryResult["url"]; // Colocamos la URL del pj para pillar sus datos.
 							include("player_get_exp.php");			// Preparamos la experiencia a través de este archivo.
 							$levelQuery = "SELECT level FROM $dydTableLevelChart WHERE xp BETWEEN 0 AND $adventTotalXP";
-							$levelData  = mysqli_query($link, $levelQuery);
+							$levelData  = mysql_query($levelQuery, $link);
 
-							if ($levelData && mysqli_num_rows($levelData) > 0) {
-								$levelRow   = mysqli_fetch_assoc($levelData);
+							if ($levelData && mysql_num_rows($levelData) > 0) {
+								$levelRow   = mysql_fetch_array($levelData, MYSQL_ASSOC);
 								$levelValue = $levelRow['level'] ?? 0;
 							} else {
 								$levelValue = 0;
@@ -1106,7 +1108,7 @@
 			<th style="text-align:center;">Origen</th>
 		</thead>
 		<tbody>
-			<td colspan="2">No hay ningún dato asociado.</td>
+			<td colspan="2"><?php echo $dataListError ? "No se ha podido cargar el listado." : "No hay ningún dato asociado."; ?></td>
 		</tbody>
 	</table>
 <?php 
