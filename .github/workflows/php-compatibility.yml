@@ -1,0 +1,39 @@
+name: Ad Infinitum - compatibilidad PHP y contrato CSV
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-compatibility:
+    name: PHP ${{ matrix.php }} - sintaxis, rutas y esquema
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: none
+          coverage: none
+      - name: Comprobar sintaxis de todo el PHP (no solo miniaturas)
+        run: find . -type f -name '*.php' -not -path './.git/*' -print0 | xargs -0 -r -n 1 php -l
+      - name: Contrastar columnas y tablas contra las 45 cabeceras CSV históricas
+        run: php tools/check_db_csv_contract.php
+      - name: Regresión de catálogo y fichas públicas con MySQL simulado
+        run: php tools/test_public_sections_runtime.php
+      - name: Regresión de miniaturas con MySQL simulado
+        run: php tools/test_miniatures_runtime.php
+      - name: Formularios privados de miniaturas
+        run: php tools/test_miniatures_admin.php
+      - name: Contrato de migración de miniaturas (sin tocar MariaDB)
+        run: php tools/test_miniatures_migration.php
+      - name: Recursos de imágenes y seguridad de miniaturas
+        run: python3 tools/test_miniatures.py
